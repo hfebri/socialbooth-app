@@ -1,103 +1,105 @@
-import Image from "next/image";
+"use client"
 
-export default function Home() {
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { ArrowRight } from "lucide-react"
+import { StepIndicator } from "@/components/step-indicator"
+import { LAYOUT_TEMPLATES } from "@/lib/layouts"
+import { cn } from "@/lib/utils"
+import { useSession } from "./providers"
+
+export default function LayoutSelectionPage() {
+  const router = useRouter()
+  const {
+    state: { selectedLayoutId },
+    actions: { selectLayout, reset },
+  } = useSession()
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-slate-100">
+      <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-12 px-8 py-12">
+        <header className="flex flex-col gap-6">
+          <StepIndicator current={1} total={4} label="Select Layout" />
+          <div className="flex items-end justify-between">
+            <div>
+              <h1 className="text-4xl font-semibold text-slate-900">Choose a layout</h1>
+              <p className="mt-2 max-w-xl text-lg text-slate-500">
+                Pick one of the predefined templates. Each layout is tuned for Replicate&apos;s
+                google/nano-banana model and optimized for iPad photobooth flows.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={reset}
+              className="text-sm text-slate-400 underline decoration-dotted underline-offset-4 hover:text-slate-600"
+            >
+              Reset session
+            </button>
+          </div>
+        </header>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+        <main className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {LAYOUT_TEMPLATES.map((layout) => {
+            const isSelected = layout.id === selectedLayoutId
+            return (
+              <button
+                key={layout.id}
+                type="button"
+                onClick={() => selectLayout(layout.id)}
+                className={cn(
+                  "group flex h-full flex-col gap-4 rounded-3xl border-2 border-transparent bg-white p-6 text-left shadow-sm transition hover:-translate-y-1 hover:shadow-lg focus:outline-none focus:ring-4",
+                  isSelected ? "border-slate-900 focus:ring-slate-200" : "border-slate-200 focus:ring-slate-100"
+                )}
+              >
+                <div className="overflow-hidden rounded-2xl bg-slate-900">
+                  <Image
+                    src={layout.preview}
+                    alt={`${layout.name} preview`}
+                    width={600}
+                    height={400}
+                    className="h-48 w-full object-cover transition group-hover:scale-105"
+                    priority
+                  />
+                </div>
+                <div className="flex flex-1 flex-col gap-2">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-semibold text-slate-900">{layout.name}</h2>
+                    <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium uppercase tracking-[0.12em] text-slate-500">
+                      {layout.aspectRatio}
+                    </span>
+                  </div>
+                  <p className="text-sm text-slate-500">{layout.description}</p>
+                  {isSelected ? (
+                    <span className="mt-auto inline-flex items-center gap-2 text-sm font-medium text-slate-900">
+                      Selected
+                      <ArrowRight className="h-4 w-4" />
+                    </span>
+                  ) : (
+                    <span className="mt-auto text-sm text-slate-400">Tap to select</span>
+                  )}
+                </div>
+              </button>
+            )
+          })}
+        </main>
+
+        <footer className="sticky bottom-8 flex justify-end">
+          <button
+            type="button"
+            onClick={() => router.push("/capture")}
+            disabled={!selectedLayoutId}
+            className={cn(
+              "inline-flex items-center gap-3 rounded-full px-6 py-3 text-base font-medium text-white transition",
+              selectedLayoutId
+                ? "bg-slate-900 hover:bg-slate-700"
+                : "cursor-not-allowed bg-slate-300 text-slate-500"
+            )}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+            Continue
+            <ArrowRight className="h-5 w-5" />
+          </button>
+        </footer>
+      </div>
     </div>
-  );
+  )
 }
