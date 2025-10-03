@@ -1,27 +1,27 @@
-export type PromptVariables = Record<string, string>
+export type PromptVariables = Record<string, string>;
 
 export type LayoutTemplate = {
-  id: string
-  name: string
-  description: string
-  promptTemplate: string
-  promptDefaults?: PromptVariables
-  preview: string
-  aspectRatio: string
-}
+  id: string;
+  name: string;
+  description: string;
+  promptTemplate: string;
+  promptDefaults?: PromptVariables;
+  preview: string;
+  aspectRatio: string;
+};
 
 export function buildPrompt(
   layout: LayoutTemplate,
   overrides: PromptVariables = {}
 ): string {
-  const variables = { ...layout.promptDefaults, ...overrides }
+  const variables = { ...layout.promptDefaults, ...overrides };
   return layout.promptTemplate.replace(/{{(\w+)}}/g, (match, key) => {
-    return key in variables ? variables[key] : match
-  })
+    return key in variables ? variables[key] : match;
+  });
 }
 
 export function getLayoutById(id: string): LayoutTemplate | undefined {
-  return LAYOUT_TEMPLATES.find((layout) => layout.id === id)
+  return LAYOUT_TEMPLATES.find((layout) => layout.id === id);
 }
 
 export const LAYOUT_TEMPLATES: LayoutTemplate[] = [
@@ -46,7 +46,8 @@ export const LAYOUT_TEMPLATES: LayoutTemplate[] = [
   {
     id: "festival-glow",
     name: "Festival Glow",
-    description: "Neon accents and lens flares suited for nightlife activations.",
+    description:
+      "Neon accents and lens flares suited for nightlife activations.",
     promptTemplate:
       "vibrant festival portrait, neon lighting, shimmer effects, high energy, cinematic",
     preview: "/layout/layout-3.jpeg",
@@ -64,15 +65,16 @@ export const LAYOUT_TEMPLATES: LayoutTemplate[] = [
   {
     id: "creator-frame",
     name: "Creator Frame",
-    description: "3D social frame with verified badge and custom caption callout.",
+    description:
+      "3D social frame with verified badge and custom caption callout.",
     promptTemplate:
       "Stylish portrait of the character sitting position inside a white 3D {{platform}} frame cutout with the logo. Dark background, cinematic lighting, ultra-realistic. {{platform}} id :['{{handle}}'] with blue checkmark. Caption should be [\"{{caption}}\"]",
     promptDefaults: {
       platform: "Instagram",
-      handle: "Chris@promptwall",
-      caption: "Create with prompts #promptwall !",
+      handle: "@leverategroup",
+      caption: "Welcome to Leverate x Meta Event!",
     },
     preview: "/layout/layout-6.jpeg",
-    aspectRatio: "3:4",
+    aspectRatio: "9:16",
   },
-]
+];

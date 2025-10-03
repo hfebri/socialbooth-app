@@ -43,21 +43,17 @@ export default function SuccessPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-100">
+    <div className="min-h-screen bg-gray-100">
       <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col gap-12 px-6 py-12 md:px-10">
         <div className="flex items-center justify-between">
           <button
             type="button"
             onClick={() => router.replace("/")}
-            className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-slate-900"
+            className="inline-flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-gray-900"
           >
             <ArrowLeft className="h-4 w-4" /> Start over
           </button>
-          <StepIndicator current={4} total={4} label="Complete" />
-          <div className="text-right">
-            <p className="text-sm text-slate-400">Layout</p>
-            <p className="text-base font-medium text-slate-900">{layout?.name}</p>
-          </div>
+          <div className="text-sm font-semibold text-gray-800">COMPLETE</div>
         </div>
 
         <main className="grid grid-cols-1 gap-10 md:grid-cols-[1.4fr_1fr]">

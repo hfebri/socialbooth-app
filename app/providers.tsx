@@ -3,7 +3,12 @@
 import { createContext, useContext, useMemo, useReducer } from "react"
 
 export type SessionState = {
-  selectedLayoutId?: string
+  userName?: string
+  whatsappNumber?: string
+  selectedPlatform?: "facebook" | "instagram"
+  selectedBackground?: string
+  socialHandle?: string
+  caption?: string
   photoDataUrl?: string
   predictionId?: string
   generatedImageUrl?: string
@@ -13,7 +18,10 @@ export type SessionState = {
 }
 
 type SessionAction =
-  | { type: "select_layout"; payload: { layoutId: string } }
+  | { type: "set_user_info"; payload: { userName: string; whatsappNumber: string } }
+  | { type: "select_platform"; payload: { platform: "facebook" | "instagram" } }
+  | { type: "select_background"; payload: { background: string } }
+  | { type: "set_social_details"; payload: { socialHandle: string; caption: string } }
   | { type: "store_photo"; payload: { photoDataUrl: string } }
   | { type: "set_prediction"; payload: { predictionId?: string } }
   | {
@@ -30,12 +38,27 @@ const initialState: SessionState = {
 
 function sessionReducer(state: SessionState, action: SessionAction): SessionState {
   switch (action.type) {
-    case "select_layout":
+    case "set_user_info":
       return {
         ...state,
-        selectedLayoutId: action.payload.layoutId,
-        generationStatus: "idle",
-        error: undefined,
+        userName: action.payload.userName,
+        whatsappNumber: action.payload.whatsappNumber,
+      }
+    case "select_platform":
+      return {
+        ...state,
+        selectedPlatform: action.payload.platform,
+      }
+    case "select_background":
+      return {
+        ...state,
+        selectedBackground: action.payload.background,
+      }
+    case "set_social_details":
+      return {
+        ...state,
+        socialHandle: action.payload.socialHandle,
+        caption: action.payload.caption,
       }
     case "store_photo":
       return {
@@ -74,7 +97,10 @@ function sessionReducer(state: SessionState, action: SessionAction): SessionStat
 type SessionContextValue = {
   state: SessionState
   actions: {
-    selectLayout: (layoutId: string) => void
+    setUserInfo: (userName: string, whatsappNumber: string) => void
+    selectPlatform: (platform: "facebook" | "instagram") => void
+    selectBackground: (background: string) => void
+    setSocialDetails: (socialHandle: string, caption: string) => void
     storePhoto: (photoDataUrl: string) => void
     setPrediction: (predictionId?: string) => void
     setGenerationResult: (generatedImageUrl: string, downloadUrl: string) => void
@@ -90,7 +116,14 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(sessionReducer, initialState)
 
   const actions = useMemo(() => ({
-    selectLayout: (layoutId: string) => dispatch({ type: "select_layout", payload: { layoutId } }),
+    setUserInfo: (userName: string, whatsappNumber: string) =>
+      dispatch({ type: "set_user_info", payload: { userName, whatsappNumber } }),
+    selectPlatform: (platform: "facebook" | "instagram") =>
+      dispatch({ type: "select_platform", payload: { platform } }),
+    selectBackground: (background: string) =>
+      dispatch({ type: "select_background", payload: { background } }),
+    setSocialDetails: (socialHandle: string, caption: string) =>
+      dispatch({ type: "set_social_details", payload: { socialHandle, caption } }),
     storePhoto: (photoDataUrl: string) =>
       dispatch({ type: "store_photo", payload: { photoDataUrl } }),
     setPrediction: (predictionId?: string) =>

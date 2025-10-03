@@ -1,6 +1,5 @@
 import Replicate from "replicate"
 import { config } from "@/lib/config"
-import { buildPrompt, getLayoutById, type PromptVariables } from "@/lib/layouts"
 
 let cachedClient: Replicate | null = null
 
@@ -14,47 +13,35 @@ function getReplicateClient() {
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { layoutId, photoDataUrl, promptVariables } = body ?? {}
+    const { prompt, photoDataUrl, backgroundImageUrl } = body ?? {}
 
-    if (!layoutId || typeof layoutId !== "string") {
-      return Response.json({ error: "layoutId is required" }, { status: 400 })
-    }
-
-    const layout = getLayoutById(layoutId)
-    if (!layout) {
-      return Response.json({ error: "Unknown layout" }, { status: 404 })
+    if (!prompt || typeof prompt !== "string") {
+      return Response.json({ error: "prompt is required" }, { status: 400 })
     }
 
     if (!photoDataUrl || typeof photoDataUrl !== "string" || !photoDataUrl.startsWith("data:image")) {
       return Response.json({ error: "photoDataUrl must be a base64 image data URL" }, { status: 400 })
     }
 
-    let promptOverrides: PromptVariables | undefined
-    if (promptVariables) {
-      if (typeof promptVariables !== "object" || Array.isArray(promptVariables)) {
-        return Response.json({ error: "promptVariables must be an object" }, { status: 400 })
-      }
-      promptOverrides = Object.fromEntries(
-        Object.entries(promptVariables).filter(([, value]) => typeof value === "string")
-      )
+    if (!backgroundImageUrl || typeof backgroundImageUrl !== "string") {
+      return Response.json({ error: "backgroundImageUrl is required" }, { status: 400 })
     }
 
-    const prompt = buildPrompt(layout, promptOverrides)
-
+    // google/nano-banana expects image_input as an array: [user photo, background image]
     const prediction = await getReplicateClient().predictions.create({
-      model: config.replicateModel(),
+      model: "google/nano-banana",
       input: {
         prompt,
-        image: photoDataUrl,
-        negative_prompt: "blurry, distorted, artifacts, watermark",
-        output_format: "png",
+        image_input: [photoDataUrl, backgroundImageUrl],
+        output_format: "jpg",
       },
     })
 
     return Response.json({ predictionId: prediction.id, status: prediction.status })
   } catch (error) {
     console.error("/api/generate error", error)
-    return Response.json({ error: "Failed to start generation" }, { status: 500 })
+    const errorMessage = error instanceof Error ? error.message : "Failed to start generation"
+    return Response.json({ error: errorMessage }, { status: 500 })
   }
 }
 
