@@ -96,7 +96,7 @@ export default function GeneratePage() {
     hasStartedRef.current = true;
 
     // Build the prompt
-    const prompt = `Remove background from the person in the reference image. Generate a complete full-body shot if only partial body is visible, maintaining exact facial features and appearance of the person. The person should be in a relaxed sitting position inside a white 3D ${selectedPlatform} frame cutout with the logo. Background is a ${backgroundName}, cinematic lighting, ultra-realistic, professional photo shoot quality. ${selectedPlatform} id: ${socialHandle} with blue verification checkmark. Caption text: ${caption}. Keep the person's identity, face, skin tone, hair, and clothing style identical to the reference image.`;
+    const prompt = `At the top of the image, place the event branding logo exactly as shown in the third reference image (Leverate Group × Meta - META Masterclass). The logo must be reproduced with perfect accuracy - identical colors, fonts, spacing, and layout. Do not modify, distort, or change any element of the logo. Below the logo: Remove background from the person in the first reference image. Generate a complete full-body shot if only partial body is visible, maintaining exact facial features and appearance of the person. The person should be in a relaxed sitting position inside a white 3D ${selectedPlatform} frame cutout with the logo. Background is a ${backgroundName} from the second reference image, cinematic lighting, ultra-realistic, professional photo shoot quality. ${selectedPlatform} id: ${socialHandle} with blue verification checkmark. Caption text: ${caption}. Keep the person's identity, face, skin tone, hair, and clothing style identical to the first reference image. The event logo at the top must remain perfectly unchanged and clearly visible.`;
 
     try {
       setIsStarting(true);
@@ -105,9 +105,12 @@ export default function GeneratePage() {
 
       console.log("Starting generation with prompt:", prompt);
 
-      // Convert background image to base64
+      // Convert background image and event logo to base64
       const backgroundImageUrl = `${window.location.origin}/background/${selectedBackground}.png`;
       const backgroundDataUrl = await imageUrlToBase64(backgroundImageUrl);
+
+      const eventLogoUrl = `${window.location.origin}/event.png`;
+      const eventLogoDataUrl = await imageUrlToBase64(eventLogoUrl);
 
       const response = await fetch("/api/generate", {
         method: "POST",
@@ -116,6 +119,7 @@ export default function GeneratePage() {
           prompt,
           photoDataUrl,
           backgroundImageUrl: backgroundDataUrl,
+          eventLogoDataUrl: eventLogoDataUrl,
         }),
       });
 
