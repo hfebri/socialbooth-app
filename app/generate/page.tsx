@@ -96,7 +96,7 @@ export default function GeneratePage() {
     hasStartedRef.current = true;
 
     // Build the prompt
-    const prompt = `Stylish portrait of the character sitting position inside a white 3D ${selectedPlatform} frame cutout with the logo. background is a ${backgroundName}, cinematic lighting, ultra-realistic. ${selectedPlatform} id : ${socialHandle} with blue checkmark. Caption should be ${caption}`;
+    const prompt = `Remove background from the person in the reference image. Generate a complete full-body shot if only partial body is visible, maintaining exact facial features and appearance of the person. The person should be in a relaxed sitting position inside a white 3D ${selectedPlatform} frame cutout with the logo. Background is a ${backgroundName}, cinematic lighting, ultra-realistic, professional photo shoot quality. ${selectedPlatform} id: ${socialHandle} with blue verification checkmark. Caption text: ${caption}. Keep the person's identity, face, skin tone, hair, and clothing style identical to the reference image.`;
 
     try {
       setIsStarting(true);
