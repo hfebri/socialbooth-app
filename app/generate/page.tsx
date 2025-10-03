@@ -12,9 +12,9 @@ const POLL_INTERVAL = 3000;
 function buildProgressCopy(status: string) {
   switch (status) {
     case "submitting":
-      return "Uploading photo to Replicate";
+      return "Uploading your photo";
     case "processing":
-      return "Replicate is generating your layout";
+      return "AI is generating your layout";
     case "succeeded":
       return "Generation complete";
     case "failed":
