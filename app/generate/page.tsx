@@ -40,6 +40,7 @@ export default function GeneratePage() {
     actions: { setStatus, setError, setPrediction, setGenerationResult },
   } = useSession();
   const [isStarting, setIsStarting] = useState(false);
+  const [progress, setProgress] = useState(0);
   const abortRef = useRef(false);
   const hasStartedRef = useRef(false);
 
@@ -52,6 +53,27 @@ export default function GeneratePage() {
 
   const backgroundName =
     backgroundNames[selectedBackground || ""] || selectedBackground;
+
+  // Simulate progress while generating
+  useEffect(() => {
+    if (generationStatus === "submitting") {
+      setProgress(10);
+    } else if (generationStatus === "processing") {
+      // Gradually increase progress from 20% to 90%
+      setProgress(20);
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 90) return 90;
+          return prev + Math.random() * 10;
+        });
+      }, 1000);
+      return () => clearInterval(interval);
+    } else if (generationStatus === "succeeded") {
+      setProgress(100);
+    } else if (generationStatus === "failed") {
+      setProgress(0);
+    }
+  }, [generationStatus]);
 
   const startGeneration = useCallback(async () => {
     // Prevent duplicate calls
@@ -239,7 +261,27 @@ export default function GeneratePage() {
           <div className="flex h-64 w-64 items-center justify-center rounded-2xl border-2 border-gray-200 bg-white">
             <Loader2 className="h-16 w-16 animate-spin text-blue-600" />
           </div>
-          <p className="text-lg font-medium text-gray-800">{statusCopy}</p>
+
+          {/* Progress bar */}
+          {(generationStatus === "submitting" || generationStatus === "processing") && (
+            <div className="w-full max-w-md">
+              <div className="mb-2 flex items-center justify-between">
+                <p className="text-lg font-medium text-gray-800">{statusCopy}</p>
+                <p className="text-sm font-semibold text-blue-600">{Math.round(progress)}%</p>
+              </div>
+              <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
+                <div
+                  className="h-full bg-blue-600 transition-all duration-500 ease-out"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            </div>
+          )}
+
+          {generationStatus === "succeeded" && (
+            <p className="text-lg font-medium text-gray-800">{statusCopy}</p>
+          )}
+
           {generationStatus === "failed" && (
             <div className="flex flex-col items-center gap-4">
               <p className="max-w-lg text-sm text-red-600">
