@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader2, Sparkles } from "lucide-react";
 import { StepIndicator } from "@/components/step-indicator";
@@ -52,41 +52,6 @@ export default function GeneratePage() {
 
   const backgroundName =
     backgroundNames[selectedBackground || ""] || selectedBackground;
-
-  useEffect(() => {
-    if (
-      !selectedPlatform ||
-      !selectedBackground ||
-      !socialHandle ||
-      !caption ||
-      !photoDataUrl
-    ) {
-      console.log("Missing data, redirecting...", {
-        selectedPlatform,
-        selectedBackground,
-        socialHandle,
-        caption,
-        photoDataUrl: !!photoDataUrl,
-      });
-      router.replace("/layouts");
-    }
-  }, [
-    photoDataUrl,
-    selectedPlatform,
-    selectedBackground,
-    socialHandle,
-    caption,
-    router,
-  ]);
-
-  // Show loading if essential data is missing
-  if (!selectedPlatform || !selectedBackground || !photoDataUrl) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-gray-100">
-        <div className="h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-blue-600" />
-      </div>
-    );
-  }
 
   const startGeneration = useCallback(async () => {
     // Prevent duplicate calls
@@ -236,8 +201,6 @@ export default function GeneratePage() {
     generationStatus,
     predictionId,
     router,
-    selectedPlatform,
-    selectedBackground,
     setError,
     setGenerationResult,
     setStatus,

@@ -5,14 +5,12 @@ import Image from "next/image"
 import { useRouter } from "next/navigation"
 import QRCode from "react-qr-code"
 import { ArrowLeft, DownloadCloud, RefreshCw } from "lucide-react"
-import { StepIndicator } from "@/components/step-indicator"
-import { LAYOUT_TEMPLATES } from "@/lib/layouts"
 import { useSession } from "../providers"
 
 export default function SuccessPage() {
   const router = useRouter()
   const {
-    state: { selectedLayoutId, generatedImageUrl, downloadUrl },
+    state: { generatedImageUrl, downloadUrl },
     actions: { reset },
   } = useSession()
 
@@ -21,11 +19,6 @@ export default function SuccessPage() {
       router.replace("/")
     }
   }, [generatedImageUrl, router])
-
-  const layout = useMemo(
-    () => LAYOUT_TEMPLATES.find((item) => item.id === selectedLayoutId),
-    [selectedLayoutId]
-  )
 
   const qrValue = useMemo(() => {
     if (!downloadUrl) return ""

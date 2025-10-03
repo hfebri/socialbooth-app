@@ -11,14 +11,15 @@ function getReplicateClient() {
 }
 
 type Params = {
-  params: {
+  params: Promise<{
     predictionId: string
-  }
+  }>
 }
 
 export async function GET(request: Request, { params }: Params) {
   try {
-    const prediction = await getReplicateClient().predictions.get(params.predictionId)
+    const { predictionId } = await params
+    const prediction = await getReplicateClient().predictions.get(predictionId)
 
     return Response.json({
       status: prediction.status,
@@ -26,7 +27,8 @@ export async function GET(request: Request, { params }: Params) {
       error: prediction.error,
     })
   } catch (error) {
-    console.error(`/api/generate/${params.predictionId} error`, error)
+    const { predictionId } = await params
+    console.error(`/api/generate/${predictionId} error`, error)
     return Response.json({ error: "Failed to fetch prediction status" }, { status: 500 })
   }
 }

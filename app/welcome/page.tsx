@@ -150,7 +150,7 @@ export default function WelcomePage() {
                 <p className="mt-2 text-sm text-rose-600">{errors.whatsapp}</p>
               )}
               <p className="mt-2 text-xs text-slate-500">
-                We'll send your photo via WhatsApp
+                We&apos;ll send your photo via WhatsApp
               </p>
             </div>
 
