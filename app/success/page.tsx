@@ -99,8 +99,7 @@ export default function SuccessPage() {
                 Next session
               </h3>
               <p className="mt-2 text-sm text-slate-500">
-                Ready for another guest? Reset the workflow to jump back to
-                layout selection.
+                Create another photo? Start fresh and choose a new layout.
               </p>
               <button
                 type="button"
@@ -110,7 +109,7 @@ export default function SuccessPage() {
                 }}
                 className="mt-4 inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 px-4 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
               >
-                <RefreshCw className="h-4 w-4" /> New session
+                <RefreshCw className="h-4 w-4" /> Start Over
               </button>
             </div>
           </aside>
