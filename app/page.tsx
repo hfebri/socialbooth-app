@@ -27,7 +27,7 @@ const BACKGROUNDS = [
 export default function HomePage() {
   const router = useRouter();
   const {
-    state: { selectedPlatform, selectedBackground, socialHandle, caption },
+    state: { selectedPlatform, selectedBackground, socialHandle },
     actions: { selectPlatform, selectBackground, setSocialDetails, reset },
   } = useSession();
 
@@ -35,7 +35,7 @@ export default function HomePage() {
 
   // Create ticker items from layout images
   const tickerItems = [1, 2, 3, 4, 5, 6].map((num) => (
-    <div className="relative h-80 w-64 overflow-hidden rounded-2xl border-2 border-gray-200 bg-white shadow-lg">
+    <div key={num} className="relative h-80 w-64 overflow-hidden rounded-2xl border-2 border-gray-200 bg-white shadow-lg">
       <Image
         src={`/layout/layout-${num}.jpeg`}
         alt={`Example result ${num}`}

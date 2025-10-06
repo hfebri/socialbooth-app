@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Loader2, Sparkles } from "lucide-react";
+import { Sparkles } from "lucide-react";
 import { StepIndicator } from "@/components/step-indicator";
 import { useSession } from "../providers";
 import { imageUrlToBase64 } from "@/lib/image-to-base64";
@@ -32,7 +32,6 @@ export default function GeneratePage() {
       selectedPlatform,
       selectedBackground,
       socialHandle,
-      caption,
       photoDataUrl,
       predictionId,
       generationStatus,
