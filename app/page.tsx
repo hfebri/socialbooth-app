@@ -63,7 +63,7 @@ export default function HomePage() {
 
         {/* Example Results Carousel */}
         <section className="space-y-4">
-          <Ticker items={tickerItems} velocity={30} hoverFactor={0.5} />
+          <Ticker items={tickerItems} velocity={120} hoverFactor={0.5} />
         </section>
 
         <header className="flex flex-col gap-6">
@@ -165,7 +165,7 @@ export default function HomePage() {
             <h2 className="text-2xl font-semibold text-gray-800">
               Select Background
             </h2>
-            <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
               {BACKGROUNDS.map((bg) => {
                 const isSelected = bg.id === selectedBackground;
                 return (

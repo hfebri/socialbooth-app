@@ -121,7 +121,7 @@ export default function LayoutSelectionPage() {
         {selectedPlatform && (
           <section className="space-y-4">
             <h2 className="text-2xl font-semibold text-slate-900">Select Background</h2>
-            <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
               {BACKGROUNDS.map((bg) => {
                 const isSelected = bg.id === selectedBackground
                 return (
