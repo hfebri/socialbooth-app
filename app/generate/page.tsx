@@ -6,6 +6,7 @@ import { Loader2, Sparkles } from "lucide-react";
 import { StepIndicator } from "@/components/step-indicator";
 import { useSession } from "../providers";
 import { imageUrlToBase64 } from "@/lib/image-to-base64";
+import { getRandomCaption } from "@/lib/caption-templates";
 
 const POLL_INTERVAL = 3000;
 
@@ -100,22 +101,25 @@ export default function GeneratePage() {
       `At the top of the image, place the event branding logo exactly as shown in the third reference image (Leverate Group × Meta - META Masterclass). The logo must be reproduced with perfect accuracy - identical colors, fonts, spacing, and layout. Do not modify, distort, or change any element of the logo.`,
       `Below the logo: Remove background from the person in the first reference image. Generate a complete full-body shot if only partial body is visible, maintaining exact facial features and appearance of the person.`,
       `The person should be in a relaxed sitting position inside a white 3D ${selectedPlatform} frame cutout with the logo.`,
-      `Background is a ${backgroundName} from the second reference image, cinematic lighting, ultra-realistic, professional photo shoot quality.`
+      `Background is a ${backgroundName} from the second reference image, cinematic lighting, ultra-realistic, professional photo shoot quality.`,
     ];
 
     // Add handle if provided
     if (socialHandle && socialHandle.trim()) {
-      promptParts.push(`${selectedPlatform} id: ${socialHandle} with blue verification checkmark.`);
+      promptParts.push(
+        `${selectedPlatform} id: ${socialHandle} with blue verification checkmark.`
+      );
     }
 
-    // Add caption if provided
-    if (caption && caption.trim()) {
-      promptParts.push(`Caption text: ${caption}.`);
-    }
+    // Add random caption
+    const randomCaption = getRandomCaption();
+    promptParts.push(`Caption text: ${randomCaption}`);
 
-    promptParts.push(`Keep the person's identity, face, skin tone, hair, and clothing style identical to the first reference image. The event logo at the top must remain perfectly unchanged and clearly visible.`);
+    promptParts.push(
+      `Keep the person's identity, face, skin tone, hair, and clothing style identical to the first reference image. The event logo at the top must remain perfectly unchanged and clearly visible.`
+    );
 
-    const prompt = promptParts.join(' ');
+    const prompt = promptParts.join(" ");
 
     try {
       setIsStarting(true);
@@ -128,7 +132,7 @@ export default function GeneratePage() {
       const backgroundImageUrl = `${window.location.origin}/background/${selectedBackground}.png`;
       const backgroundDataUrl = await imageUrlToBase64(backgroundImageUrl);
 
-      const eventLogoUrl = `${window.location.origin}/event.png`;
+      const eventLogoUrl = `${window.location.origin}/event.jpg`;
       const eventLogoDataUrl = await imageUrlToBase64(eventLogoUrl);
 
       const response = await fetch("/api/generate", {
@@ -286,11 +290,16 @@ export default function GeneratePage() {
           </div>
 
           {/* Progress bar */}
-          {(generationStatus === "submitting" || generationStatus === "processing") && (
+          {(generationStatus === "submitting" ||
+            generationStatus === "processing") && (
             <div className="w-full max-w-md">
               <div className="mb-2 flex items-center justify-between">
-                <p className="text-lg font-medium text-gray-800">{statusCopy}</p>
-                <p className="text-sm font-semibold text-blue-600">{Math.round(progress)}%</p>
+                <p className="text-lg font-medium text-gray-800">
+                  {statusCopy}
+                </p>
+                <p className="text-sm font-semibold text-blue-600">
+                  {Math.round(progress)}%
+                </p>
               </div>
               <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
                 <div

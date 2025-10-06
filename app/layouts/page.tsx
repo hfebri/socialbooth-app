@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { ArrowRight, Facebook, Instagram } from "lucide-react"
-import { StepIndicator } from "@/components/step-indicator"
-import { cn } from "@/lib/utils"
-import { useSession } from "../providers"
+import { useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { ArrowRight, Facebook, Instagram } from "lucide-react";
+import { StepIndicator } from "@/components/step-indicator";
+import { cn } from "@/lib/utils";
+import { useSession } from "../providers";
 
 const BACKGROUNDS = [
   { id: "bg-1", name: "Mountain", image: "/background/bg-1.png" },
@@ -21,17 +21,16 @@ const BACKGROUNDS = [
   { id: "bg-10", name: "Ice Cave", image: "/background/bg-10.png" },
   { id: "bg-11", name: "Sakura", image: "/background/bg-11.png" },
   { id: "bg-12", name: "Autumn Forest", image: "/background/bg-12.png" },
-]
+];
 
 export default function LayoutSelectionPage() {
-  const router = useRouter()
+  const router = useRouter();
   const {
-    state: { selectedPlatform, selectedBackground, socialHandle, caption },
+    state: { selectedPlatform, selectedBackground, socialHandle },
     actions: { selectPlatform, selectBackground, setSocialDetails, reset },
-  } = useSession()
+  } = useSession();
 
-  const [handle, setHandle] = useState(socialHandle || "")
-  const [userCaption, setUserCaption] = useState(caption || "")
+  const [handle, setHandle] = useState(socialHandle || "");
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -49,10 +48,16 @@ export default function LayoutSelectionPage() {
         </div>
 
         <header className="flex flex-col gap-6">
-          <StepIndicator current={1} total={4} label="Select Platform & Layout" />
+          <StepIndicator
+            current={1}
+            total={4}
+            label="Select Platform & Layout"
+          />
           <div className="flex items-end justify-between">
             <div>
-              <h1 className="text-4xl font-semibold text-gray-800">Choose your platform</h1>
+              <h1 className="text-4xl font-semibold text-gray-800">
+                Choose your platform
+              </h1>
               <p className="mt-2 max-w-xl text-lg text-gray-600">
                 Select your social media platform and background.
               </p>
@@ -69,7 +74,9 @@ export default function LayoutSelectionPage() {
 
         {/* Social Media Platform Selection */}
         <section className="space-y-4">
-          <h2 className="text-2xl font-semibold text-gray-800">Select Social Media</h2>
+          <h2 className="text-2xl font-semibold text-gray-800">
+            Select Social Media
+          </h2>
           <div className="grid grid-cols-2 gap-6 md:max-w-md">
             <button
               type="button"
@@ -81,14 +88,22 @@ export default function LayoutSelectionPage() {
                   : "border-gray-200 focus:ring-gray-100"
               )}
             >
-              <Facebook className={cn(
-                "h-16 w-16",
-                selectedPlatform === "facebook" ? "text-blue-600" : "text-gray-400"
-              )} />
-              <span className={cn(
-                "text-lg font-semibold",
-                selectedPlatform === "facebook" ? "text-blue-600" : "text-gray-700"
-              )}>
+              <Facebook
+                className={cn(
+                  "h-16 w-16",
+                  selectedPlatform === "facebook"
+                    ? "text-blue-600"
+                    : "text-gray-400"
+                )}
+              />
+              <span
+                className={cn(
+                  "text-lg font-semibold",
+                  selectedPlatform === "facebook"
+                    ? "text-blue-600"
+                    : "text-gray-700"
+                )}
+              >
                 Facebook
               </span>
             </button>
@@ -103,14 +118,22 @@ export default function LayoutSelectionPage() {
                   : "border-gray-200 focus:ring-gray-100"
               )}
             >
-              <Instagram className={cn(
-                "h-16 w-16",
-                selectedPlatform === "instagram" ? "text-blue-600" : "text-gray-400"
-              )} />
-              <span className={cn(
-                "text-lg font-semibold",
-                selectedPlatform === "instagram" ? "text-blue-600" : "text-gray-700"
-              )}>
+              <Instagram
+                className={cn(
+                  "h-16 w-16",
+                  selectedPlatform === "instagram"
+                    ? "text-blue-600"
+                    : "text-gray-400"
+                )}
+              />
+              <span
+                className={cn(
+                  "text-lg font-semibold",
+                  selectedPlatform === "instagram"
+                    ? "text-blue-600"
+                    : "text-gray-700"
+                )}
+              >
                 Instagram
               </span>
             </button>
@@ -120,10 +143,12 @@ export default function LayoutSelectionPage() {
         {/* Background Selection */}
         {selectedPlatform && (
           <section className="space-y-4">
-            <h2 className="text-2xl font-semibold text-slate-900">Select Background</h2>
+            <h2 className="text-2xl font-semibold text-slate-900">
+              Select Background
+            </h2>
             <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
               {BACKGROUNDS.map((bg) => {
-                const isSelected = bg.id === selectedBackground
+                const isSelected = bg.id === selectedBackground;
                 return (
                   <button
                     key={bg.id}
@@ -145,14 +170,16 @@ export default function LayoutSelectionPage() {
                         className="h-32 w-full object-cover transition group-hover:scale-105"
                       />
                     </div>
-                    <span className={cn(
-                      "text-base font-semibold",
-                      isSelected ? "text-blue-600" : "text-slate-700"
-                    )}>
+                    <span
+                      className={cn(
+                        "text-base font-semibold",
+                        isSelected ? "text-blue-600" : "text-slate-700"
+                      )}
+                    >
                       {bg.name}
                     </span>
                   </button>
-                )
+                );
               })}
             </div>
           </section>
@@ -161,34 +188,29 @@ export default function LayoutSelectionPage() {
         {/* Social Details Form */}
         {selectedPlatform && selectedBackground && (
           <section className="space-y-4">
-            <h2 className="text-2xl font-semibold text-gray-800">Your Social Media Details (Optional)</h2>
-            <div className="max-w-md space-y-4">
-              <div>
-                <label htmlFor="handle" className="block text-sm font-medium text-gray-700">
-                  {selectedPlatform === "facebook" ? "Facebook" : "Instagram"} Handle <span className="text-gray-500">(Optional)</span>
-                </label>
-                <input
-                  type="text"
-                  id="handle"
-                  value={handle}
-                  onChange={(e) => setHandle(e.target.value)}
-                  className="mt-2 w-full rounded-2xl border-2 border-gray-200 bg-white px-4 py-3 text-lg transition-colors focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-100"
-                  placeholder={selectedPlatform === "facebook" ? "@yourfacebook" : "@yourinstagram"}
-                />
-              </div>
-              <div>
-                <label htmlFor="caption" className="block text-sm font-medium text-gray-700">
-                  Caption <span className="text-gray-500">(Optional)</span>
-                </label>
-                <input
-                  type="text"
-                  id="caption"
-                  value={userCaption}
-                  onChange={(e) => setUserCaption(e.target.value)}
-                  className="mt-2 w-full rounded-2xl border-2 border-gray-200 bg-white px-4 py-3 text-lg transition-colors focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-100"
-                  placeholder="Enter your caption"
-                />
-              </div>
+            <h2 className="text-2xl font-semibold text-gray-800">
+              Your Social Media Handle (Optional)
+            </h2>
+            <div className="max-w-md">
+              <label
+                htmlFor="handle"
+                className="block text-sm font-medium text-gray-700"
+              >
+                {selectedPlatform === "facebook" ? "Facebook" : "Instagram"}{" "}
+                Handle <span className="text-gray-500">(Optional)</span>
+              </label>
+              <input
+                type="text"
+                id="handle"
+                value={handle}
+                onChange={(e) => setHandle(e.target.value)}
+                className="mt-2 w-full rounded-2xl border-2 border-gray-200 bg-white px-4 py-3 text-lg transition-colors focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                placeholder={
+                  selectedPlatform === "facebook"
+                    ? "@yourfacebook"
+                    : "@yourinstagram"
+                }
+              />
             </div>
           </section>
         )}
@@ -197,8 +219,8 @@ export default function LayoutSelectionPage() {
           <button
             type="button"
             onClick={() => {
-              setSocialDetails(handle, userCaption)
-              router.push("/capture")
+              setSocialDetails(handle, "");
+              router.push("/capture");
             }}
             disabled={!selectedPlatform || !selectedBackground}
             className={cn(
@@ -214,5 +236,5 @@ export default function LayoutSelectionPage() {
         </footer>
       </div>
     </div>
-  )
+  );
 }

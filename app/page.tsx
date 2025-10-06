@@ -32,7 +32,6 @@ export default function HomePage() {
   } = useSession();
 
   const [handle, setHandle] = useState(socialHandle || "");
-  const [userCaption, setUserCaption] = useState(caption || "");
 
   // Create ticker items from layout images
   const tickerItems = [1, 2, 3, 4, 5, 6].map((num) => (
@@ -208,46 +207,28 @@ export default function HomePage() {
         {selectedPlatform && selectedBackground && (
           <section className="space-y-4">
             <h2 className="text-2xl font-semibold text-gray-800">
-              Your Social Media Details (Optional)
+              Your Social Media Handle (Optional)
             </h2>
-            <div className="max-w-md space-y-4">
-              <div>
-                <label
-                  htmlFor="handle"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  {selectedPlatform === "facebook" ? "Facebook" : "Instagram"}{" "}
-                  Handle <span className="text-gray-500">(Optional)</span>
-                </label>
-                <input
-                  type="text"
-                  id="handle"
-                  value={handle}
-                  onChange={(e) => setHandle(e.target.value)}
-                  className="mt-2 w-full rounded-2xl border-2 border-gray-200 bg-white px-4 py-3 text-lg transition-colors focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-100"
-                  placeholder={
-                    selectedPlatform === "facebook"
-                      ? "@yourfacebook"
-                      : "@yourinstagram"
-                  }
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="caption"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Caption <span className="text-gray-500">(Optional)</span>
-                </label>
-                <input
-                  type="text"
-                  id="caption"
-                  value={userCaption}
-                  onChange={(e) => setUserCaption(e.target.value)}
-                  className="mt-2 w-full rounded-2xl border-2 border-gray-200 bg-white px-4 py-3 text-lg transition-colors focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-100"
-                  placeholder="Enter your caption"
-                />
-              </div>
+            <div className="max-w-md">
+              <label
+                htmlFor="handle"
+                className="block text-sm font-medium text-gray-700"
+              >
+                {selectedPlatform === "facebook" ? "Facebook" : "Instagram"}{" "}
+                Handle <span className="text-gray-500">(Optional)</span>
+              </label>
+              <input
+                type="text"
+                id="handle"
+                value={handle}
+                onChange={(e) => setHandle(e.target.value)}
+                className="mt-2 w-full rounded-2xl border-2 border-gray-200 bg-white px-4 py-3 text-lg transition-colors focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-100"
+                placeholder={
+                  selectedPlatform === "facebook"
+                    ? "@yourfacebook"
+                    : "@yourinstagram"
+                }
+              />
             </div>
           </section>
         )}
@@ -256,7 +237,7 @@ export default function HomePage() {
           <button
             type="button"
             onClick={() => {
-              setSocialDetails(handle, userCaption);
+              setSocialDetails(handle, "");
               router.push("/capture");
             }}
             disabled={!selectedPlatform || !selectedBackground}
