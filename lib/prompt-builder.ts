@@ -129,44 +129,6 @@ export function buildStructuredPrompt(config: PromptConfig): string {
     });
   }
 
-  // Convert to text prompt
-  return convertStructuredPromptToText(promptStructure);
-}
-
-interface PromptEdit {
-  type: string;
-  target: string;
-  instruction: string;
-}
-
-interface PromptStructure {
-  edits: PromptEdit[];
-  lighting: { type: string; direction: string; intensity: string; notes: string };
-  quality: { texture_detail: string; resolution: string };
-  composition: { notes: string };
-  negatives: string[];
-}
-
-function convertStructuredPromptToText(structure: PromptStructure): string {
-  const parts: string[] = [];
-
-  // Add edits in order
-  structure.edits.forEach((edit) => {
-    parts.push(edit.instruction);
-  });
-
-  // Add lighting and quality requirements
-  parts.push(
-    `${structure.lighting.type} lighting with ${structure.lighting.direction}, ${structure.lighting.intensity} intensity. ${structure.lighting.notes}`
-  );
-  parts.push(`${structure.quality.texture_detail}, ${structure.quality.resolution} quality.`);
-
-  // Add composition notes
-  parts.push(structure.composition.notes);
-
-  // Add negatives as constraints
-  const negativesText = `Avoid: ${structure.negatives.join(", ")}.`;
-  parts.push(negativesText);
-
-  return parts.join(" ");
+  // Return as JSON string
+  return JSON.stringify(promptStructure, null, 2);
 }
