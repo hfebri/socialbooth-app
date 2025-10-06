@@ -8,6 +8,7 @@ const LAYOUT_IMAGES = [
   "/layout/layout-3.jpeg",
   "/layout/layout-4.jpeg",
   "/layout/layout-5.jpeg",
+  "/layout/layout-6.jpeg",
 ];
 
 export function LayoutCarousel() {

@@ -9,7 +9,13 @@ interface PromptConfig {
 }
 
 export function buildStructuredPrompt(config: PromptConfig): string {
-  const { platform, backgroundVariant, backgroundName, socialHandle, aspectRatio = "9:16" } = config;
+  const {
+    platform,
+    backgroundVariant,
+    backgroundName,
+    socialHandle,
+    aspectRatio = "9:16",
+  } = config;
   const randomCaption = getRandomCaption();
 
   const promptStructure = {
@@ -19,7 +25,8 @@ export function buildStructuredPrompt(config: PromptConfig): string {
         person_ref: "first reference image (person)",
         background_ref: "second reference image (background set)",
         background_variant: backgroundVariant,
-        event_logo_ref: "third reference image (Leverate Group × Meta - META Masterclass logo)",
+        event_logo_ref:
+          "third reference image (Leverate Group × Meta - META Masterclass logo)",
         social_frame_type: `${platform}_profile_frame_3d`,
         aspect_ratio: aspectRatio,
       },
@@ -39,12 +46,12 @@ export function buildStructuredPrompt(config: PromptConfig): string {
       influences: ["professional photo shoot", "brand event visuals"],
     },
 
-
     lighting: {
       type: "cinematic",
       direction: "soft key with subtle rim",
       intensity: "medium",
-      notes: "Studio-quality, even skin rendering; avoid harsh specular hot spots",
+      notes:
+        "Studio-quality, even skin rendering; avoid harsh specular hot spots",
     },
 
     environment: {
@@ -55,13 +62,17 @@ export function buildStructuredPrompt(config: PromptConfig): string {
     composition: {
       layout: `Event logo fixed at top center; subject inside white 3D ${platform} profile frame centered below the logo; balanced negative space`,
       symmetry: "strong",
-      notes: "Ensure clear visual hierarchy: logo (top), framed subject (center), caption placement without overlapping the logo.",
+      notes:
+        "Ensure clear visual hierarchy: logo (top), framed subject (center), caption placement without overlapping the logo.",
     },
 
     quality: {
       resolution: "print-ready",
       texture_detail: "natural skin texture, fabric fidelity",
-      postprocess: ["subtle film grain", "precise color management to match brand"],
+      postprocess: [
+        "subtle film grain",
+        "precise color management to match brand",
+      ],
     },
 
     output: {
@@ -76,29 +87,19 @@ export function buildStructuredPrompt(config: PromptConfig): string {
         instruction: `Place the event branding sticker at the top center exactly as in the third reference image. It's a white rounded rectangle sticker/badge with subtle drop shadow containing: Top row - 'leverate GROUP' (black text with dots icon) × Meta logo (blue infinity symbol). Bottom row - 'META' (cyan/turquoise bold sans-serif) overlapping with 'Masterclass' (dark navy handwritten script font). Reproduce with perfect pixel accuracy: identical white background, colors (black, cyan #00D4D4, blue Meta, navy script), fonts, spacing, rounded corners, and drop shadow. Do not modify, distort, or change any element. Maintain clear space around the sticker and ensure it remains perfectly unchanged and clearly visible.`,
       },
       {
-        type: "subject_extraction",
+        type: "person_edit",
         target: "person",
-        instruction: `Remove background from the person in the first reference image. Preserve exact facial features, identity, skin tone, hair, and clothing style.`,
+        instruction: `Remove background from the person in the first reference image, then preserve exact facial features, identity, skin tone, hair, and clothing style. Then generate a COMPLETE FULL-BODY shot showing the entire person from head to feet with consistent proportions, clothing, and lighting. Then adjust the pose to a relaxed sitting position (seated on an invisible chair or ledge) with legs visible and natural posture while maintaining perfect anatomy and the subject's exact identity. The final result MUST show the complete person sitting with their full body visible from head to feet.`,
       },
       {
-        type: "body_completion",
-        target: "person",
-        instruction: `If only a partial body is visible, generate a complete full-body shot consistent with the person's proportions, clothing, and lighting.`,
-      },
-      {
-        type: "pose_edit",
-        target: "person",
-        instruction: `Adjust pose to a relaxed sitting position while maintaining natural anatomy and the subject's identity.`,
-      },
-      {
-        type: "frame_insertion",
+        type: "frame_placement",
         target: "social_media_frame",
-        instruction: `Insert a white 3D ${platform} Profile frame cutout with the ${platform} logo. Place the person seated inside the frame. Ensure correct perspective, shadows, and occlusion so the person appears realistically inside the frame.`,
+        instruction: `Create a white physical 3D ${platform} profile frame cutout (like a dimensional cardboard photo prop) with the ${platform} logo prominently displayed. The frame should be a thick white border with depth and dimension (not flat, not a phone mockup). Then position the sitting person inside this 3D frame cutout so they appear to be posing within it. Ensure correct 3D perspective, realistic drop shadows, and proper occlusion where the frame overlaps the person. The frame must look like a tangible 3D object with thickness and shadow, not a 2D graphic or device screen.`,
       },
       {
         type: "background_replacement",
         target: "background",
-        instruction: `Set the background to ${backgroundName} from the second reference image collection. Match overall lighting to cinematic style; maintain clean separation between subject, frame, and background.`,
+        instruction: `Set the background to ${backgroundName} from the second reference image collection, then match overall lighting to cinematic style, then maintain clean separation between subject, frame, and background with proper depth of field.`,
       },
       {
         type: "caption_add",
@@ -112,6 +113,10 @@ export function buildStructuredPrompt(config: PromptConfig): string {
       "logo distortion, skewing, stretching, or blurring",
       "mismatched skin tone or altered facial identity",
       "unnatural body proportions or awkward sitting pose",
+      "partial body (cropped legs, missing feet, incomplete torso)",
+      "person standing instead of sitting",
+      "flat 2D frame or phone/device mockup instead of 3D physical frame",
+      "frame that looks like a screen or digital interface",
       "text artifacts or warped letters",
       "over-smooth 'plastic' skin",
       "haloing or hard cutout edges",
