@@ -278,30 +278,49 @@ export default function GeneratePage() {
           <h1 className="text-4xl font-semibold text-gray-800">
             Generating your photobooth layout
           </h1>
-          <p className="max-w-2xl text-base text-gray-600">
-            We&apos;re compositing your photo with the {backgroundName}{" "}
-            background.
-          </p>
         </div>
 
-        <div className="flex flex-1 flex-col items-center justify-center gap-6">
-          <div className="flex h-64 w-64 items-center justify-center rounded-2xl border-2 border-gray-200 bg-white">
-            <Loader2 className="h-16 w-16 animate-spin text-blue-600" />
-          </div>
+        <div className="flex flex-1 flex-col items-center justify-center gap-8">
+          {/* Progress circle with percentage */}
+          {(generationStatus === "submitting" ||
+            generationStatus === "processing") && (
+            <div className="relative flex h-64 w-64 items-center justify-center">
+              <svg className="h-full w-full -rotate-90 transform">
+                <circle
+                  cx="128"
+                  cy="128"
+                  r="120"
+                  stroke="currentColor"
+                  strokeWidth="8"
+                  fill="none"
+                  className="text-gray-200"
+                />
+                <circle
+                  cx="128"
+                  cy="128"
+                  r="120"
+                  stroke="currentColor"
+                  strokeWidth="8"
+                  fill="none"
+                  strokeDasharray={`${2 * Math.PI * 120}`}
+                  strokeDashoffset={`${2 * Math.PI * 120 * (1 - progress / 100)}`}
+                  className="text-blue-600 transition-all duration-500 ease-out"
+                  strokeLinecap="round"
+                />
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
+                <Sparkles className="h-12 w-12 text-blue-600" />
+                <p className="text-5xl font-bold text-gray-900">{Math.round(progress)}%</p>
+                <p className="text-sm text-gray-600">{statusCopy}</p>
+              </div>
+            </div>
+          )}
 
           {/* Progress bar */}
           {(generationStatus === "submitting" ||
             generationStatus === "processing") && (
             <div className="w-full max-w-md">
-              <div className="mb-2 flex items-center justify-between">
-                <p className="text-lg font-medium text-gray-800">
-                  {statusCopy}
-                </p>
-                <p className="text-sm font-semibold text-blue-600">
-                  {Math.round(progress)}%
-                </p>
-              </div>
-              <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
+              <div className="h-3 w-full overflow-hidden rounded-full bg-gray-200">
                 <div
                   className="h-full bg-blue-600 transition-all duration-500 ease-out"
                   style={{ width: `${progress}%` }}
