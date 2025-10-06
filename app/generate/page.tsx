@@ -86,8 +86,6 @@ export default function GeneratePage() {
     if (
       !selectedPlatform ||
       !selectedBackground ||
-      !socialHandle ||
-      !caption ||
       !photoDataUrl ||
       isStarting
     ) {
@@ -166,21 +164,18 @@ export default function GeneratePage() {
     isStarting,
     selectedPlatform,
     selectedBackground,
-    socialHandle,
-    caption,
     backgroundName,
     photoDataUrl,
     setError,
     setPrediction,
     setStatus,
+    socialHandle, // Keep for the prompt
   ]);
 
   useEffect(() => {
     if (
       !selectedPlatform ||
       !selectedBackground ||
-      !socialHandle ||
-      !caption ||
       !photoDataUrl ||
       predictionId ||
       generationStatus !== "idle"
@@ -192,8 +187,6 @@ export default function GeneratePage() {
   }, [
     selectedPlatform,
     selectedBackground,
-    socialHandle,
-    caption,
     photoDataUrl,
     predictionId,
     generationStatus,
