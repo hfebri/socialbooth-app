@@ -26,34 +26,34 @@ export default function HomePage() {
   const [userCaption, setUserCaption] = useState(caption || "");
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll carousel
+  // Auto-scroll carousel with smooth continuous scrolling
   useEffect(() => {
     const carousel = carouselRef.current;
     if (!carousel) return;
 
-    const scrollWidth = carousel.scrollWidth;
-    const clientWidth = carousel.clientWidth;
-    const maxScroll = scrollWidth - clientWidth;
-
+    let animationFrameId: number;
     let scrollPosition = 0;
-    const scrollStep = 1; // pixels per frame
-    const scrollSpeed = 30; // milliseconds between frames
+    const scrollSpeed = 0.5; // pixels per frame (lower = smoother)
 
-    const autoScroll = setInterval(() => {
-      scrollPosition += scrollStep;
+    const smoothScroll = () => {
+      const scrollWidth = carousel.scrollWidth;
+      const clientWidth = carousel.clientWidth;
+      const maxScroll = scrollWidth - clientWidth;
+
+      scrollPosition += scrollSpeed;
 
       // Reset to start when reaching the end
       if (scrollPosition >= maxScroll) {
         scrollPosition = 0;
       }
 
-      carousel.scrollTo({
-        left: scrollPosition,
-        behavior: "smooth",
-      });
-    }, scrollSpeed);
+      carousel.scrollLeft = scrollPosition;
+      animationFrameId = requestAnimationFrame(smoothScroll);
+    };
 
-    return () => clearInterval(autoScroll);
+    animationFrameId = requestAnimationFrame(smoothScroll);
+
+    return () => cancelAnimationFrame(animationFrameId);
   }, []);
 
   return (
@@ -76,10 +76,10 @@ export default function HomePage() {
           <div className="relative overflow-hidden">
             <div
               ref={carouselRef}
-              className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide"
+              className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide"
             >
               {[1, 2, 3, 4, 5, 6].map((num) => (
-                <div key={num} className="flex-shrink-0 snap-center">
+                <div key={num} className="flex-shrink-0">
                   <div className="relative h-80 w-64 overflow-hidden rounded-2xl border-2 border-gray-200 bg-white shadow-lg">
                     <Image
                       src={`/layout/layout-${num}.jpeg`}
