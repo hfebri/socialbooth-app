@@ -112,7 +112,7 @@ export default function GeneratePage() {
       const backgroundImageUrl = `${window.location.origin}/background/${selectedBackground}.png`;
       const backgroundDataUrl = await imageUrlToBase64(backgroundImageUrl);
 
-      const eventLogoUrl = `${window.location.origin}/event.jpg`;
+      const eventLogoUrl = `${window.location.origin}/event-meta.png`;
       const eventLogoDataUrl = await imageUrlToBase64(eventLogoUrl);
 
       const response = await fetch("/api/generate", {
