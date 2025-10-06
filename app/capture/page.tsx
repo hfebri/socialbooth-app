@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Check, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useSession } from "../providers";
 import { useOrientation } from "@/hooks/use-orientation";
@@ -29,6 +30,7 @@ export default function CapturePage() {
   const webcamRef = useRef<WebcamInstance | null>(null);
   const [preview, setPreview] = useState<string | undefined>(photoDataUrl);
   const [isSaving, setIsSaving] = useState(false);
+  const [countdown, setCountdown] = useState<number | null>(5);
   const orientation = useOrientation();
 
   const videoConstraints = useMemo(
@@ -45,6 +47,24 @@ export default function CapturePage() {
       router.replace("/layouts");
     }
   }, [selectedPlatform, selectedBackground, router]);
+
+  // Countdown timer - starts automatically when camera is ready and no preview
+  useEffect(() => {
+    if (preview || countdown === null) return;
+
+    if (countdown === 0) {
+      // Auto-capture when countdown reaches 0
+      handleCapture();
+      setCountdown(null);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setCountdown(countdown - 1);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [countdown, preview]);
 
   const handleCapture = () => {
     const screenshot = webcamRef.current?.getScreenshot();
@@ -103,6 +123,42 @@ export default function CapturePage() {
         )}
       </div>
 
+      {/* Countdown overlay */}
+      <AnimatePresence>
+        {!preview && countdown !== null && countdown > 0 && (
+          <motion.div
+            key={countdown}
+            initial={{ scale: 0.5, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 1.5, opacity: 0 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
+            className="absolute inset-0 z-20 flex items-center justify-center"
+          >
+            <div className="text-center">
+              <motion.div
+                initial={{ scale: 0.8 }}
+                animate={{ scale: 1 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="text-[200px] font-bold text-white drop-shadow-2xl"
+                style={{
+                  textShadow: "0 0 40px rgba(0, 0, 0, 0.8), 0 0 80px rgba(0, 0, 0, 0.6)",
+                }}
+              >
+                {countdown}
+              </motion.div>
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+                className="mt-4 text-2xl font-semibold text-white drop-shadow-lg"
+              >
+                Get ready!
+              </motion.p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Top bar */}
       <div className="relative z-10 flex items-center justify-between px-6 py-4">
         <button
@@ -116,7 +172,10 @@ export default function CapturePage() {
         {preview && (
           <button
             type="button"
-            onClick={() => setPreview(undefined)}
+            onClick={() => {
+              setPreview(undefined);
+              setCountdown(5); // Restart countdown
+            }}
             className="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition hover:bg-black/60"
           >
             <X className="h-5 w-5" />
@@ -133,7 +192,10 @@ export default function CapturePage() {
             {preview && (
               <button
                 type="button"
-                onClick={() => setPreview(undefined)}
+                onClick={() => {
+                  setPreview(undefined);
+                  setCountdown(5); // Restart countdown
+                }}
                 disabled={isSaving}
                 className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/30 disabled:opacity-50"
               >

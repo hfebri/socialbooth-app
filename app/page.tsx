@@ -36,7 +36,6 @@ export default function HomePage() {
 
     const smoothScroll = () => {
       const scrollWidth = carousel.scrollWidth;
-      const clientWidth = carousel.clientWidth;
 
       // Scroll continuously
       carousel.scrollLeft += scrollSpeed;
