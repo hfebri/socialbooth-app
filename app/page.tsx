@@ -35,15 +35,14 @@ export default function HomePage() {
     const scrollSpeed = 0.5; // pixels per frame (lower = smoother)
 
     const smoothScroll = () => {
-      const scrollWidth = carousel.scrollWidth;
-
       // Scroll continuously
       carousel.scrollLeft += scrollSpeed;
 
-      // When we've scrolled past half the content (original images), reset to start
-      // This creates seamless infinite loop since we duplicate the images
-      if (carousel.scrollLeft >= scrollWidth / 2) {
-        carousel.scrollLeft = 0;
+      // When we've scrolled past the first set of images, seamlessly jump back
+      // The user won't notice because we have duplicated images
+      const singleSetWidth = 6 * (256 + 16); // 6 images × (width + gap)
+      if (carousel.scrollLeft >= singleSetWidth) {
+        carousel.scrollLeft -= singleSetWidth;
       }
 
       animationFrameId = requestAnimationFrame(smoothScroll);
