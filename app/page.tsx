@@ -26,28 +26,27 @@ export default function HomePage() {
   const [userCaption, setUserCaption] = useState(caption || "");
   const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll carousel with smooth continuous scrolling
+  // Auto-scroll carousel with smooth infinite scrolling
   useEffect(() => {
     const carousel = carouselRef.current;
     if (!carousel) return;
 
     let animationFrameId: number;
-    let scrollPosition = 0;
     const scrollSpeed = 0.5; // pixels per frame (lower = smoother)
 
     const smoothScroll = () => {
       const scrollWidth = carousel.scrollWidth;
       const clientWidth = carousel.clientWidth;
-      const maxScroll = scrollWidth - clientWidth;
 
-      scrollPosition += scrollSpeed;
+      // Scroll continuously
+      carousel.scrollLeft += scrollSpeed;
 
-      // Reset to start when reaching the end
-      if (scrollPosition >= maxScroll) {
-        scrollPosition = 0;
+      // When we've scrolled past half the content (original images), reset to start
+      // This creates seamless infinite loop since we duplicate the images
+      if (carousel.scrollLeft >= scrollWidth / 2) {
+        carousel.scrollLeft = 0;
       }
 
-      carousel.scrollLeft = scrollPosition;
       animationFrameId = requestAnimationFrame(smoothScroll);
     };
 
@@ -78,18 +77,21 @@ export default function HomePage() {
               ref={carouselRef}
               className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide"
             >
-              {[1, 2, 3, 4, 5, 6].map((num) => (
-                <div key={num} className="flex-shrink-0">
-                  <div className="relative h-80 w-64 overflow-hidden rounded-2xl border-2 border-gray-200 bg-white shadow-lg">
-                    <Image
-                      src={`/layout/layout-${num}.jpeg`}
-                      alt={`Example result ${num}`}
-                      fill
-                      className="object-cover"
-                    />
+              {/* Duplicate images twice for seamless infinite scroll */}
+              {[...Array(2)].map((_, setIndex) =>
+                [1, 2, 3, 4, 5, 6].map((num) => (
+                  <div key={`${setIndex}-${num}`} className="flex-shrink-0">
+                    <div className="relative h-80 w-64 overflow-hidden rounded-2xl border-2 border-gray-200 bg-white shadow-lg">
+                      <Image
+                        src={`/layout/layout-${num}.jpeg`}
+                        alt={`Example result ${num}`}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
             </div>
           </div>
         </section>
