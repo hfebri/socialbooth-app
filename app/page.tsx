@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Camera, Facebook, Instagram } from "lucide-react";
 import { StepIndicator } from "@/components/step-indicator";
+import { Ticker } from "@/components/ticker";
 import { cn } from "@/lib/utils";
 import { useSession } from "./providers";
 
@@ -32,34 +33,18 @@ export default function HomePage() {
 
   const [handle, setHandle] = useState(socialHandle || "");
   const [userCaption, setUserCaption] = useState(caption || "");
-  const carouselRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll carousel with smooth infinite scrolling
-  useEffect(() => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-
-    let animationFrameId: number;
-    const scrollSpeed = 0.5; // pixels per frame (lower = smoother)
-
-    const smoothScroll = () => {
-      // Scroll continuously
-      carousel.scrollLeft += scrollSpeed;
-
-      // When we've scrolled past the first set of images, seamlessly jump back
-      // The user won't notice because we have duplicated images
-      const singleSetWidth = 6 * (256 + 16); // 6 images × (width + gap)
-      if (carousel.scrollLeft >= singleSetWidth) {
-        carousel.scrollLeft -= singleSetWidth;
-      }
-
-      animationFrameId = requestAnimationFrame(smoothScroll);
-    };
-
-    animationFrameId = requestAnimationFrame(smoothScroll);
-
-    return () => cancelAnimationFrame(animationFrameId);
-  }, []);
+  // Create ticker items from layout images
+  const tickerItems = [1, 2, 3, 4, 5, 6].map((num) => (
+    <div className="relative h-80 w-64 overflow-hidden rounded-2xl border-2 border-gray-200 bg-white shadow-lg">
+      <Image
+        src={`/layout/layout-${num}.jpeg`}
+        alt={`Example result ${num}`}
+        fill
+        className="object-cover"
+      />
+    </div>
+  ));
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -78,28 +63,7 @@ export default function HomePage() {
 
         {/* Example Results Carousel */}
         <section className="space-y-4">
-          <div className="relative overflow-hidden">
-            <div
-              ref={carouselRef}
-              className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide"
-            >
-              {/* Duplicate images twice for seamless infinite scroll */}
-              {[...Array(2)].map((_, setIndex) =>
-                [1, 2, 3, 4, 5, 6].map((num) => (
-                  <div key={`${setIndex}-${num}`} className="flex-shrink-0">
-                    <div className="relative h-80 w-64 overflow-hidden rounded-2xl border-2 border-gray-200 bg-white shadow-lg">
-                      <Image
-                        src={`/layout/layout-${num}.jpeg`}
-                        alt={`Example result ${num}`}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
-                  </div>
-                ))
-              )}
-            </div>
-          </div>
+          <Ticker items={tickerItems} velocity={30} hoverFactor={0.5} />
         </section>
 
         <header className="flex flex-col gap-6">
