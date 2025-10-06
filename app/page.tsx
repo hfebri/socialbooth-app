@@ -8,6 +8,7 @@ import { StepIndicator } from "@/components/step-indicator";
 import { Ticker } from "@/components/ticker";
 import { cn } from "@/lib/utils";
 import { useSession } from "./providers";
+import { BackgroundCarousel } from "@/components/background-carousel";
 
 const BACKGROUNDS = [
   { id: "bg-1", name: "Mountain", image: "/background/bg-1.png" },
@@ -47,7 +48,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-12 px-8 py-12">
+      <div className="mx-auto flex min-h-screen w-full max-w-6xl flex-col gap-12 px-8 py-1">
         {/* Event Branding */}
         <div className="flex justify-center">
           <Image
@@ -60,21 +61,13 @@ export default function HomePage() {
           />
         </div>
 
-        {/* Example Results Carousel */}
-        <section className="space-y-4">
-          <Ticker items={tickerItems} velocity={120} hoverFactor={0.5} />
-        </section>
 
         <header className="flex flex-col gap-6">
-          <StepIndicator
-            current={1}
-            total={4}
-            label="Select Platform & Layout"
-          />
+          
           <div className="flex items-end justify-between">
             <div>
-              <h1 className="text-4xl font-semibold text-gray-800">
-                Choose your platform
+              <h1 className="text-3xl font-semibold text-gray-800">
+                Choose your platform & background
               </h1>
               <p className="mt-2 max-w-xl text-lg text-gray-600">
                 Select your social media platform and background.
@@ -91,10 +84,10 @@ export default function HomePage() {
         </header>
 
         {/* Social Media Platform Selection */}
-        <section className="space-y-4">
-          <h2 className="text-2xl font-semibold text-gray-800">
+        <section className="justify-center space-y-4 md:flex md:space-y-0">
+          {/* <h2 className="text-2xl font-semibold text-gray-800">
             Select Social Media
-          </h2>
+          </h2> */}
           <div className="grid grid-cols-2 gap-6 md:max-w-md">
             <button
               type="button"
@@ -233,7 +226,13 @@ export default function HomePage() {
           </section>
         )}
 
-        <footer className="sticky bottom-8 flex justify-end">
+        
+        {/* Example Results Carousel */}
+        <section className="space-y-4">
+          <Ticker items={tickerItems} velocity={120} hoverFactor={0.5} />
+        </section>
+
+        <footer className="sticky bottom-8 flex justify-center">
           <button
             type="button"
             onClick={() => {
