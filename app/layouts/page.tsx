@@ -13,6 +13,14 @@ const BACKGROUNDS = [
   { id: "bg-2", name: "Beach", image: "/background/bg-2.png" },
   { id: "bg-3", name: "City Night", image: "/background/bg-3.png" },
   { id: "bg-4", name: "Lake", image: "/background/bg-4.png" },
+  { id: "bg-5", name: "Futuristic City", image: "/background/bg-5.png" },
+  { id: "bg-6", name: "Moon", image: "/background/bg-6.png" },
+  { id: "bg-7", name: "Temple", image: "/background/bg-7.png" },
+  { id: "bg-8", name: "Coral Reef", image: "/background/bg-8.png" },
+  { id: "bg-9", name: "Milky Way", image: "/background/bg-9.png" },
+  { id: "bg-10", name: "Ice Cave", image: "/background/bg-10.png" },
+  { id: "bg-11", name: "Sakura", image: "/background/bg-11.png" },
+  { id: "bg-12", name: "Autumn Forest", image: "/background/bg-12.png" },
 ]
 
 export default function LayoutSelectionPage() {
@@ -113,7 +121,7 @@ export default function LayoutSelectionPage() {
         {selectedPlatform && (
           <section className="space-y-4">
             <h2 className="text-2xl font-semibold text-slate-900">Select Background</h2>
-            <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+            <div className="grid grid-cols-3 gap-4 md:grid-cols-6">
               {BACKGROUNDS.map((bg) => {
                 const isSelected = bg.id === selectedBackground
                 return (
