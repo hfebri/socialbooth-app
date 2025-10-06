@@ -98,7 +98,7 @@ export default function GeneratePage() {
     const promptParts = [
       `At the top of the image, place the event branding logo exactly as shown in the third reference image (Leverate Group × Meta - META Masterclass). The logo must be reproduced with perfect accuracy - identical colors, fonts, spacing, and layout. Do not modify, distort, or change any element of the logo.`,
       `Below the logo: Remove background from the person in the first reference image. Generate a complete full-body shot if only partial body is visible, maintaining exact facial features and appearance of the person.`,
-      `The person should be in a relaxed sitting position on a bench/chair. Behind the person, place a large white 3D ${selectedPlatform} logo cutout frame (NOT a mobile phone, just the ${selectedPlatform} icon/logo as a 3D physical frame structure).`,
+      `The person should be in a relaxed sitting position inside a white 3D ${selectedPlatform} Profile frame cutout with the ${selectedPlatform} logo.`,
       `Background is a ${backgroundName} from the second reference image, cinematic lighting, ultra-realistic, professional photo shoot quality.`,
     ];
 
