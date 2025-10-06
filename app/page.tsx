@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ArrowRight, Facebook, Instagram } from "lucide-react";
+import { Camera, Facebook, Instagram } from "lucide-react";
 import { StepIndicator } from "@/components/step-indicator";
 import { cn } from "@/lib/utils";
 import { useSession } from "./providers";
@@ -295,8 +295,8 @@ export default function HomePage() {
                 : "cursor-not-allowed bg-gray-300 text-gray-500"
             )}
           >
-            Continue
-            <ArrowRight className="h-5 w-5" />
+            Start Capture
+            <Camera className="h-5 w-5" />
           </button>
         </footer>
       </div>
