@@ -9,7 +9,7 @@ interface TickerProps {
   hoverFactor?: number;
 }
 
-export function Ticker({ items, velocity = 50, hoverFactor = 0.5 }: TickerProps) {
+export function Ticker({ items, velocity = 50 }: TickerProps) {
   // Calculate animation duration based on velocity
   // velocity is in pixels per second
   // Assume each item is about 280px (256px width + 16px gap + some padding)
