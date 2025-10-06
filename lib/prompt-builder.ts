@@ -126,18 +126,32 @@ export function buildStructuredPrompt(config: PromptConfig): string {
       type: "text_add",
       target: "social_handle",
       instruction: `Add ${platform} id: ${socialHandle} with blue verification checkmark.`,
-    } as any);
+    });
   }
 
   // Convert to text prompt
   return convertStructuredPromptToText(promptStructure);
 }
 
-function convertStructuredPromptToText(structure: any): string {
+interface PromptEdit {
+  type: string;
+  target: string;
+  instruction: string;
+}
+
+interface PromptStructure {
+  edits: PromptEdit[];
+  lighting: { type: string; direction: string; intensity: string; notes: string };
+  quality: { texture_detail: string; resolution: string };
+  composition: { notes: string };
+  negatives: string[];
+}
+
+function convertStructuredPromptToText(structure: PromptStructure): string {
   const parts: string[] = [];
 
   // Add edits in order
-  structure.edits.forEach((edit: any) => {
+  structure.edits.forEach((edit) => {
     parts.push(edit.instruction);
   });
 

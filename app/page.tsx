@@ -4,11 +4,9 @@ import { useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Camera, Facebook, Instagram } from "lucide-react";
-import { StepIndicator } from "@/components/step-indicator";
 import { Ticker } from "@/components/ticker";
 import { cn } from "@/lib/utils";
 import { useSession } from "./providers";
-import { BackgroundCarousel } from "@/components/background-carousel";
 
 const BACKGROUNDS = [
   { id: "bg-1", name: "Mountain", image: "/background/bg-1.png" },
