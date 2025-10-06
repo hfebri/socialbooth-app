@@ -38,7 +38,7 @@ export default function LayoutSelectionPage() {
         {/* Event Branding */}
         <div className="flex justify-center">
           <Image
-            src="/event.png"
+            src="/event-meta.png"
             alt="Leverate Group × Meta - META Masterclass"
             width={400}
             height={80}

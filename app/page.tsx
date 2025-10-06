@@ -52,7 +52,7 @@ export default function HomePage() {
         {/* Event Branding */}
         <div className="flex justify-center">
           <Image
-            src="/event.png"
+            src="/event-meta.png"
             alt="Leverate Group × Meta - META Masterclass"
             width={400}
             height={80}
@@ -61,9 +61,7 @@ export default function HomePage() {
           />
         </div>
 
-
         <header className="flex flex-col gap-6">
-          
           <div className="flex items-end justify-between">
             <div>
               <h1 className="text-3xl font-semibold text-gray-800">
@@ -226,7 +224,6 @@ export default function HomePage() {
           </section>
         )}
 
-        
         {/* Example Results Carousel */}
         <section className="space-y-4">
           <Ticker items={tickerItems} velocity={120} hoverFactor={0.5} />
