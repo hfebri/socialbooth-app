@@ -15,7 +15,7 @@ function buildProgressCopy(status: string) {
     case "submitting":
       return "Uploading your photo";
     case "processing":
-      return "AI is generating your layout";
+      return "Generating your image";
     case "succeeded":
       return "Generation complete";
     case "failed":
@@ -98,7 +98,7 @@ export default function GeneratePage() {
     const promptParts = [
       `At the top of the image, place the event branding logo exactly as shown in the third reference image (Leverate Group × Meta - META Masterclass). The logo must be reproduced with perfect accuracy - identical colors, fonts, spacing, and layout. Do not modify, distort, or change any element of the logo.`,
       `Below the logo: Remove background from the person in the first reference image. Generate a complete full-body shot if only partial body is visible, maintaining exact facial features and appearance of the person.`,
-      `The person should be in a relaxed sitting position inside a white 3D ${selectedPlatform} post UI frame (like a social media mobile app interface frame) with the ${selectedPlatform} logo on it.`,
+      `The person should be in a relaxed sitting position on a bench/chair. Behind the person, place a large white 3D ${selectedPlatform} logo cutout frame (NOT a mobile phone, just the ${selectedPlatform} icon/logo as a 3D physical frame structure).`,
       `Background is a ${backgroundName} from the second reference image, cinematic lighting, ultra-realistic, professional photo shoot quality.`,
     ];
 
@@ -314,17 +314,6 @@ export default function GeneratePage() {
           )}
 
           {/* Progress bar */}
-          {(generationStatus === "submitting" ||
-            generationStatus === "processing") && (
-            <div className="w-full max-w-md">
-              <div className="h-3 w-full overflow-hidden rounded-full bg-gray-200">
-                <div
-                  className="h-full bg-blue-600 transition-all duration-500 ease-out"
-                  style={{ width: `${progress}%` }}
-                />
-              </div>
-            </div>
-          )}
 
           {generationStatus === "succeeded" && (
             <p className="text-lg font-medium text-gray-800">{statusCopy}</p>
