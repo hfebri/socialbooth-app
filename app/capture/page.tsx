@@ -5,7 +5,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Check, X } from "lucide-react";
+import { ArrowLeft, Check, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { useSession } from "../providers";
@@ -176,9 +176,9 @@ export default function CapturePage() {
               setPreview(undefined);
               setCountdown(5); // Restart countdown
             }}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 text-white backdrop-blur-sm transition hover:bg-black/60"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-200 text-gray-700 backdrop-blur-sm transition hover:bg-gray-300"
           >
-            <X className="h-5 w-5" />
+            <RotateCcw className="h-5 w-5" />
           </button>
         )}
       </div>
@@ -197,9 +197,9 @@ export default function CapturePage() {
                   setCountdown(5); // Restart countdown
                 }}
                 disabled={isSaving}
-                className="flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition hover:bg-white/30 disabled:opacity-50"
+                className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-200 text-gray-700 transition hover:bg-gray-300 disabled:opacity-50"
               >
-                <X className="h-6 w-6" />
+                <RotateCcw className="h-7 w-7" />
               </button>
             )}
 
