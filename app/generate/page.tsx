@@ -95,8 +95,27 @@ export default function GeneratePage() {
 
     hasStartedRef.current = true;
 
-    // Build the prompt
-    const prompt = `At the top of the image, place the event branding logo exactly as shown in the third reference image (Leverate Group × Meta - META Masterclass). The logo must be reproduced with perfect accuracy - identical colors, fonts, spacing, and layout. Do not modify, distort, or change any element of the logo. Below the logo: Remove background from the person in the first reference image. Generate a complete full-body shot if only partial body is visible, maintaining exact facial features and appearance of the person. The person should be in a relaxed sitting position inside a white 3D ${selectedPlatform} frame cutout with the logo. Background is a ${backgroundName} from the second reference image, cinematic lighting, ultra-realistic, professional photo shoot quality. ${selectedPlatform} id: ${socialHandle} with blue verification checkmark. Caption text: ${caption}. Keep the person's identity, face, skin tone, hair, and clothing style identical to the first reference image. The event logo at the top must remain perfectly unchanged and clearly visible.`;
+    // Build the prompt with optional handle and caption
+    const promptParts = [
+      `At the top of the image, place the event branding logo exactly as shown in the third reference image (Leverate Group × Meta - META Masterclass). The logo must be reproduced with perfect accuracy - identical colors, fonts, spacing, and layout. Do not modify, distort, or change any element of the logo.`,
+      `Below the logo: Remove background from the person in the first reference image. Generate a complete full-body shot if only partial body is visible, maintaining exact facial features and appearance of the person.`,
+      `The person should be in a relaxed sitting position inside a white 3D ${selectedPlatform} frame cutout with the logo.`,
+      `Background is a ${backgroundName} from the second reference image, cinematic lighting, ultra-realistic, professional photo shoot quality.`
+    ];
+
+    // Add handle if provided
+    if (socialHandle && socialHandle.trim()) {
+      promptParts.push(`${selectedPlatform} id: ${socialHandle} with blue verification checkmark.`);
+    }
+
+    // Add caption if provided
+    if (caption && caption.trim()) {
+      promptParts.push(`Caption text: ${caption}.`);
+    }
+
+    promptParts.push(`Keep the person's identity, face, skin tone, hair, and clothing style identical to the first reference image. The event logo at the top must remain perfectly unchanged and clearly visible.`);
+
+    const prompt = promptParts.join(' ');
 
     try {
       setIsStarting(true);
