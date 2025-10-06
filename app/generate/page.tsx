@@ -98,7 +98,7 @@ export default function GeneratePage() {
     const promptParts = [
       `At the top of the image, place the event branding logo exactly as shown in the third reference image (Leverate Group × Meta - META Masterclass). The logo must be reproduced with perfect accuracy - identical colors, fonts, spacing, and layout. Do not modify, distort, or change any element of the logo.`,
       `Below the logo: Remove background from the person in the first reference image. Generate a complete full-body shot if only partial body is visible, maintaining exact facial features and appearance of the person.`,
-      `The person should be in a relaxed sitting position inside a white 3D ${selectedPlatform} frame cutout with the logo.`,
+      `The person should be in a relaxed sitting position inside a white 3D ${selectedPlatform} post UI frame (like a social media mobile app interface frame) with the ${selectedPlatform} logo on it.`,
       `Background is a ${backgroundName} from the second reference image, cinematic lighting, ultra-realistic, professional photo shoot quality.`,
     ];
 
@@ -296,14 +296,18 @@ export default function GeneratePage() {
                   strokeWidth="8"
                   fill="none"
                   strokeDasharray={`${2 * Math.PI * 120}`}
-                  strokeDashoffset={`${2 * Math.PI * 120 * (1 - progress / 100)}`}
+                  strokeDashoffset={`${
+                    2 * Math.PI * 120 * (1 - progress / 100)
+                  }`}
                   className="text-blue-600 transition-all duration-500 ease-out"
                   strokeLinecap="round"
                 />
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
                 <Sparkles className="h-12 w-12 text-blue-600" />
-                <p className="text-5xl font-bold text-gray-900">{Math.round(progress)}%</p>
+                <p className="text-5xl font-bold text-gray-900">
+                  {Math.round(progress)}%
+                </p>
                 <p className="text-sm text-gray-600">{statusCopy}</p>
               </div>
             </div>
