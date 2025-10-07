@@ -89,7 +89,7 @@ export function buildStructuredPrompt(config: PromptConfig): string {
       {
         type: "person_edit",
         target: "person",
-        instruction: `Remove background from the person in the first reference image, then preserve exact facial features, identity, skin tone, hair, and clothing style. Then generate a COMPLETE FULL-BODY shot showing the entire person from head to feet with consistent proportions, clothing, and lighting. Then adjust the pose to a relaxed sitting position (seated on an invisible chair or ledge) with legs visible and natural posture while maintaining perfect anatomy and the subject's exact identity. The final result MUST show the complete person sitting with their full body visible from head to feet.`,
+        instruction: `Remove background from the person in the first reference image. Preserve exact facial features, identity, skin tone, hair, and clothing style. Generate a COMPLETE FULL-BODY shot of the person in a confident, poised seated pose like a fashion model sitting inside the 3D frame. The pose should show the full body from head to feet, with legs bent and feet resting naturally on the bottom edge of the frame, properly grounded with clear contact to the surface. Ensure all body parts, especially legs and feet, are naturally proportioned, clearly visible, and positioned within the frame boundaries. Maintain perfect anatomy, the subject's exact identity, and their original clothing.`,
       },
       {
         type: "frame_and_caption",
@@ -110,6 +110,7 @@ export function buildStructuredPrompt(config: PromptConfig): string {
       "unnatural body proportions or awkward sitting pose",
       "partial body (cropped legs, missing feet, incomplete torso)",
       "person standing instead of sitting",
+      "floating feet or ungrounded pose",
       "flat 2D frame or phone/device mockup instead of 3D physical frame",
       "frame that looks like a screen or digital interface",
       "text artifacts or warped letters",
