@@ -84,7 +84,7 @@ export function buildStructuredPrompt(config: PromptConfig): string {
       {
         type: "exact_placement",
         target: "event_logo",
-        instruction: `Place the event branding sticker at the top center exactly as in the third reference image. It's a white rounded rectangle sticker/badge with subtle drop shadow containing: Top row - 'leverate GROUP' (black text with dots icon) × Meta logo (blue infinity symbol). Bottom row - 'META' (cyan/turquoise bold sans-serif) overlapping with 'Masterclass' (dark navy handwritten script font). Reproduce with perfect pixel accuracy: identical white background, colors (black, cyan #00D4D4, blue Meta, navy script), fonts, spacing, rounded corners, and drop shadow. Do not modify, distort, or change any element. Maintain clear space around the sticker and ensure it remains perfectly unchanged and clearly visible.`,
+        instruction: `Place the event branding sticker at the top center exactly as in the third reference image. It's a white rounded rectangle sticker/badge with subtle drop shadow containing: Top row - 'leverate GROUP' (black text with dots icon) × Meta logo (blue infinity symbol). Bottom row - 'META' (cyan/turquoise bold sans-serif) overlapping with 'Masterclass' (dark navy handwritten script font). Reproduce with perfect pixel accuracy: identical white background, colors (black, cyan #00D4D4, blue Meta, navy script), fonts, spacing, rounded corners, and drop shadow. Do not modify, distort, resize, or change any element. Maintain clear space around the sticker and ensure it remains perfectly unchanged and clearly visible.`,
       },
       {
         type: "person_edit",

@@ -44,7 +44,7 @@ export default function CapturePage() {
 
   useEffect(() => {
     if (!selectedPlatform || !selectedBackground) {
-      router.replace("/layouts");
+      router.replace("/");
     }
   }, [selectedPlatform, selectedBackground, router]);
 
