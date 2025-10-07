@@ -92,19 +92,14 @@ export function buildStructuredPrompt(config: PromptConfig): string {
         instruction: `Remove background from the person in the first reference image, then preserve exact facial features, identity, skin tone, hair, and clothing style. Then generate a COMPLETE FULL-BODY shot showing the entire person from head to feet with consistent proportions, clothing, and lighting. Then adjust the pose to a relaxed sitting position (seated on an invisible chair or ledge) with legs visible and natural posture while maintaining perfect anatomy and the subject's exact identity. The final result MUST show the complete person sitting with their full body visible from head to feet.`,
       },
       {
-        type: "frame_placement",
+        type: "frame_and_caption",
         target: "social_media_frame",
-        instruction: `Create a white physical 3D ${platform} profile frame cutout (like a dimensional cardboard photo prop) with the ${platform} logo prominently displayed. The frame should be a thick white border with depth and dimension (not flat, not a phone mockup). Then position the sitting person inside this 3D frame cutout so they appear to be posing within it. Ensure correct 3D perspective, realistic drop shadows, and proper occlusion where the frame overlaps the person. The frame must look like a tangible 3D object with thickness and shadow, not a 2D graphic or device screen.`,
+        instruction: `Create a white physical 3D ${platform} profile frame cutout (like a dimensional cardboard photo prop) with the ${platform} logo prominently displayed. The frame should be a thick white border with depth and dimension (not flat, not a phone mockup). Then position the sitting person inside this 3D frame cutout so they appear to be posing within it, and add the caption text '${randomCaption}' at the bottom inside the frame using clean, modern typography that's clearly legible. Ensure correct 3D perspective, realistic drop shadows, and proper occlusion where the frame overlaps the person. The frame must look like a tangible 3D object with thickness and shadow, not a 2D graphic or device screen.`,
       },
       {
         type: "background_replacement",
         target: "background",
         instruction: `Set the background to ${backgroundName} from the second reference image collection, then match overall lighting to cinematic style, then maintain clean separation between subject, frame, and background with proper depth of field.`,
-      },
-      {
-        type: "caption_add",
-        target: "text",
-        instruction: `Add caption text below the framed subject (not overlapping the logo): '${randomCaption}'. Use clean, modern typography; ensure legibility over the chosen background.`,
       },
     ],
 
