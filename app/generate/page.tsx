@@ -83,7 +83,6 @@ export default function GeneratePage() {
     }
 
     if (
-      !selectedPlatform ||
       !selectedBackground ||
       !photoDataUrl ||
       isStarting
@@ -93,11 +92,11 @@ export default function GeneratePage() {
 
     hasStartedRef.current = true;
 
-    // Build the structured prompt
+    // Build the structured prompt (always TikTok)
     const prompt = buildStructuredPrompt({
-      platform: selectedPlatform || "",
-      backgroundVariant: selectedBackground || "",
-      backgroundName,
+      platform: "TikTok",
+      backgroundVariant: selectedBackground ?? "",
+      backgroundName: backgroundName ?? "",
       socialHandle,
     });
 
@@ -112,7 +111,8 @@ export default function GeneratePage() {
       const backgroundImageUrl = `${window.location.origin}/background/${selectedBackground}.png`;
       const backgroundDataUrl = await imageUrlToBase64(backgroundImageUrl);
 
-      const eventLogoUrl = `${window.location.origin}/event-meta.png`;
+      // Event logo for "Winning The Season of Sales"
+      const eventLogoUrl = `${window.location.origin}/event-tiktok.png`;
       const eventLogoDataUrl = await imageUrlToBase64(eventLogoUrl);
 
       const response = await fetch("/api/generate", {
@@ -144,19 +144,17 @@ export default function GeneratePage() {
     }
   }, [
     isStarting,
-    selectedPlatform,
     selectedBackground,
     backgroundName,
     photoDataUrl,
     setError,
     setPrediction,
     setStatus,
-    socialHandle, // Keep for the prompt
+    socialHandle,
   ]);
 
   useEffect(() => {
     if (
-      !selectedPlatform ||
       !selectedBackground ||
       !photoDataUrl ||
       predictionId ||
@@ -167,7 +165,6 @@ export default function GeneratePage() {
 
     startGeneration();
   }, [
-    selectedPlatform,
     selectedBackground,
     photoDataUrl,
     predictionId,
@@ -242,15 +239,15 @@ export default function GeneratePage() {
   }, [setPrediction, setError, setStatus, startGeneration]);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-800">
       <div className="mx-auto flex min-h-screen w-full max-w-4xl flex-col gap-10 px-8 py-16 text-center">
         <StepIndicator current={3} total={4} label="AI Generation" />
         <div className="flex flex-col items-center gap-6">
           <div className="inline-flex items-center gap-3 rounded-full bg-blue-600 px-4 py-2 text-sm font-medium text-white">
             <Sparkles className="h-4 w-4" />
-            {selectedPlatform ? `${selectedPlatform} Frame` : "Preparing"}
+            TikTok Frame
           </div>
-          <h1 className="text-4xl font-semibold text-gray-800">
+          <h1 className="text-4xl font-semibold text-white">
             Generating your photobooth layout
           </h1>
         </div>
@@ -287,10 +284,10 @@ export default function GeneratePage() {
               </svg>
               <div className="absolute inset-0 flex flex-col items-center justify-center gap-2">
                 <Sparkles className="h-12 w-12 text-blue-600" />
-                <p className="text-5xl font-bold text-gray-900">
+                <p className="text-5xl font-bold text-white">
                   {Math.round(progress)}%
                 </p>
-                <p className="text-sm text-gray-600">{statusCopy}</p>
+                <p className="text-sm text-gray-300">{statusCopy}</p>
               </div>
             </div>
           )}
@@ -298,7 +295,7 @@ export default function GeneratePage() {
           {/* Progress bar */}
 
           {generationStatus === "succeeded" && (
-            <p className="text-lg font-medium text-gray-800">{statusCopy}</p>
+            <p className="text-lg font-medium text-white">{statusCopy}</p>
           )}
 
           {generationStatus === "failed" && (

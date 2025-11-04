@@ -1,5 +1,3 @@
-import { getRandomCaption } from "./caption-templates";
-
 interface PromptConfig {
   platform: string;
   backgroundVariant: string;
@@ -16,27 +14,26 @@ export function buildStructuredPrompt(config: PromptConfig): string {
     socialHandle,
     aspectRatio = "9:16",
   } = config;
-  const randomCaption = getRandomCaption();
 
   const promptStructure = {
     meta: {
       task: "image-edit",
       params: {
-        person_ref: "first reference image (person)",
+        person_ref: "first reference image (person or group of people)",
         background_ref: "second reference image (background set)",
         background_variant: backgroundVariant,
         event_logo_ref:
-          "third reference image (Leverate Group × Meta - META Masterclass logo)",
+          "third reference image (Winning The Season of Sales event logo)",
         social_frame_type: `${platform}_profile_frame_3d`,
         aspect_ratio: aspectRatio,
       },
     },
 
     subject: {
-      primary: "The same person as in the first reference image",
+      primary: "The same person or group of people as in the first reference image",
       secondary: [
         `${platform} profile 3D frame cutout with ${platform} logo`,
-        "Event branding logo (Leverate Group × Meta - META Masterclass)",
+        "Event branding logo (Winning The Season of Sales)",
       ],
     },
 
@@ -77,24 +74,23 @@ export function buildStructuredPrompt(config: PromptConfig): string {
 
     output: {
       aspect_ratio: aspectRatio,
-      caption: randomCaption,
     },
 
     edits: [
       {
         type: "exact_placement",
         target: "event_logo",
-        instruction: `Place the event branding sticker at the top center exactly as in the third reference image. It's a white rounded rectangle sticker/badge with subtle drop shadow containing: Top row - 'leverate GROUP' (black text with dots icon) × Meta logo (blue infinity symbol). Bottom row - 'META' (cyan/turquoise bold sans-serif) overlapping with 'Masterclass' (dark navy handwritten script font). Reproduce with perfect pixel accuracy: identical white background, colors (black, cyan #00D4D4, blue Meta, navy script), fonts, spacing, rounded corners, and drop shadow. Do not modify, distort, resize, or change any element. Maintain clear space around the sticker and ensure it remains perfectly unchanged and clearly visible.`,
+        instruction: `Place the "Winning The Season of Sales" event branding logo at the top center exactly as shown in the third reference image. Reproduce the logo with perfect pixel accuracy: maintain identical colors, fonts, spacing, and any design elements. Do not modify, distort, resize, or change any element. Maintain clear space around the logo and ensure it remains perfectly unchanged and clearly visible.`,
       },
       {
         type: "person_edit",
         target: "person",
-        instruction: `Remove background from the person in the first reference image. Preserve exact facial features, identity, skin tone, hair, and clothing style. Generate a COMPLETE FULL-BODY shot of the person in a confident, poised seated pose like a fashion model sitting inside the 3D frame. The pose should show the full body from head to feet, with legs bent and feet resting naturally on the bottom edge of the frame, properly grounded with clear contact to the surface. Ensure all body parts, especially legs and feet, are naturally proportioned, clearly visible, and positioned within the frame boundaries. Maintain perfect anatomy, the subject's exact identity, and their original clothing.`,
+        instruction: `Remove background from the person or group in the first reference image. Preserve exact facial features, identities, skin tones, hair, and clothing styles of ALL people. Generate a COMPLETE FULL-BODY shot in a confident, natural pose. The pose can be sitting, standing, or a dynamic group arrangement - choose what works best for the number of people and composition. Subjects can be positioned inside the frame cutout, around it, or interacting with it creatively. For single subjects: show full body from head to feet with natural posing. For groups: arrange people naturally while keeping everyone clearly visible. Ensure all body parts are naturally proportioned, clearly visible, and well-positioned in the composition. Maintain perfect anatomy, exact identities, and original clothing for all subjects.`,
       },
       {
-        type: "frame_and_caption",
+        type: "frame_placement",
         target: "social_media_frame",
-        instruction: `Create a white physical 3D ${platform} profile frame cutout (like a dimensional cardboard photo prop) with the ${platform} logo prominently displayed. The frame should be a thick white border with depth and dimension (not flat, not a phone mockup). Then position the sitting person inside this 3D frame cutout so they appear to be posing within it, and add the caption text '${randomCaption}' at the bottom inside the frame using clean, modern typography that's clearly legible. Ensure correct 3D perspective, realistic drop shadows, and proper occlusion where the frame overlaps the person. The frame must look like a tangible 3D object with thickness and shadow, not a 2D graphic or device screen.`,
+        instruction: `Create a white physical 3D ${platform} profile frame cutout (like a dimensional cardboard photo prop) with the ${platform} logo prominently displayed. The frame should be a thick white border with depth and dimension (not flat, not a phone mockup). Position the person or group either inside the frame cutout OR creatively around/behind the frame - choose the arrangement that works best for the composition and number of people. The subjects can interact with the frame naturally, whether posing within it or beside/around it. Ensure correct 3D perspective, realistic drop shadows, and proper occlusion where the frame overlaps or interacts with the subject(s). The frame must look like a tangible 3D object with thickness and shadow, not a 2D graphic or device screen.`,
       },
       {
         type: "background_replacement",
@@ -107,13 +103,13 @@ export function buildStructuredPrompt(config: PromptConfig): string {
       "any modification of the event logo (color, font, spacing, layout)",
       "logo distortion, skewing, stretching, or blurring",
       "mismatched skin tone or altered facial identity",
-      "unnatural body proportions or awkward sitting pose",
+      "unnatural body proportions or awkward poses",
       "partial body (cropped legs, missing feet, incomplete torso)",
-      "person standing instead of sitting",
-      "floating feet or ungrounded pose",
+      "missing people from group shots",
+      "obscured faces or identities in group arrangements",
+      "floating feet or ungrounded poses",
       "flat 2D frame or phone/device mockup instead of 3D physical frame",
       "frame that looks like a screen or digital interface",
-      "text artifacts or warped letters",
       "over-smooth 'plastic' skin",
       "haloing or hard cutout edges",
       "inconsistent lighting between subject, frame, and background",

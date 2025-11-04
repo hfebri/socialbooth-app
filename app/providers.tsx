@@ -5,7 +5,7 @@ import { createContext, useContext, useMemo, useReducer } from "react"
 export type SessionState = {
   userName?: string
   whatsappNumber?: string
-  selectedPlatform?: "facebook" | "instagram"
+  selectedPlatform: "tiktok" // Hardcoded to TikTok only
   selectedBackground?: string
   socialHandle?: string
   caption?: string
@@ -19,7 +19,7 @@ export type SessionState = {
 
 type SessionAction =
   | { type: "set_user_info"; payload: { userName: string; whatsappNumber: string } }
-  | { type: "select_platform"; payload: { platform: "facebook" | "instagram" } }
+  | { type: "select_platform"; payload: { platform: "facebook" | "instagram" | "tiktok" } } // Keep for compatibility but always set to tiktok
   | { type: "select_background"; payload: { background: string } }
   | { type: "set_social_details"; payload: { socialHandle: string; caption: string } }
   | { type: "store_photo"; payload: { photoDataUrl: string } }
@@ -33,6 +33,7 @@ type SessionAction =
   | { type: "reset" }
 
 const initialState: SessionState = {
+  selectedPlatform: "tiktok", // Always TikTok
   generationStatus: "idle",
 }
 
@@ -45,9 +46,10 @@ function sessionReducer(state: SessionState, action: SessionAction): SessionStat
         whatsappNumber: action.payload.whatsappNumber,
       }
     case "select_platform":
+      // Always set to tiktok regardless of payload (for compatibility)
       return {
         ...state,
-        selectedPlatform: action.payload.platform,
+        selectedPlatform: "tiktok",
       }
     case "select_background":
       return {
@@ -98,7 +100,7 @@ type SessionContextValue = {
   state: SessionState
   actions: {
     setUserInfo: (userName: string, whatsappNumber: string) => void
-    selectPlatform: (platform: "facebook" | "instagram") => void
+    selectPlatform: (platform: "facebook" | "instagram" | "tiktok") => void
     selectBackground: (background: string) => void
     setSocialDetails: (socialHandle: string, caption: string) => void
     storePhoto: (photoDataUrl: string) => void
@@ -118,7 +120,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   const actions = useMemo(() => ({
     setUserInfo: (userName: string, whatsappNumber: string) =>
       dispatch({ type: "set_user_info", payload: { userName, whatsappNumber } }),
-    selectPlatform: (platform: "facebook" | "instagram") =>
+    selectPlatform: (platform: "facebook" | "instagram" | "tiktok") =>
       dispatch({ type: "select_platform", payload: { platform } }),
     selectBackground: (background: string) =>
       dispatch({ type: "select_background", payload: { background } }),

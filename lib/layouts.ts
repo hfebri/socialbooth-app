@@ -70,9 +70,8 @@ export const LAYOUT_TEMPLATES: LayoutTemplate[] = [
     promptTemplate:
       "Stylish portrait of the character sitting position inside a white 3D {{platform}} frame cutout with the logo. Dark background, cinematic lighting, ultra-realistic. {{platform}} id :['{{handle}}'] with blue checkmark. Caption should be [\"{{caption}}\"]",
     promptDefaults: {
-      platform: "Instagram",
+      platform: "TikTok",
       handle: "@leverategroup",
-      caption: "Welcome to Leverate x Meta Event!",
     },
     preview: "/layout/layout-6.jpeg",
     aspectRatio: "9:16",

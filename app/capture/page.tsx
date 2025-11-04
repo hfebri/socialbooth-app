@@ -43,10 +43,10 @@ export default function CapturePage() {
   );
 
   useEffect(() => {
-    if (!selectedPlatform || !selectedBackground) {
+    if (!selectedBackground) {
       router.replace("/");
     }
-  }, [selectedPlatform, selectedBackground, router]);
+  }, [selectedBackground, router]);
 
   // Countdown timer - starts automatically when camera is ready and no preview
   useEffect(() => {
@@ -94,7 +94,7 @@ export default function CapturePage() {
     }
   };
 
-  if (!selectedPlatform || !selectedBackground) {
+  if (!selectedBackground) {
     return null;
   }
 
