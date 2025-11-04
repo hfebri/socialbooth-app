@@ -90,7 +90,7 @@ export function buildStructuredPrompt(config: PromptConfig): string {
       {
         type: "frame_placement",
         target: "social_media_frame",
-        instruction: `Create a white physical 3D ${platform} profile frame cutout (like a dimensional cardboard photo prop) with the ${platform} logo prominently displayed. The frame should be a thick white border with depth and dimension (not flat, not a phone mockup). Position the person or group either inside the frame cutout OR creatively around/behind the frame - choose the arrangement that works best for the composition and number of people. The subjects can interact with the frame naturally, whether posing within it or beside/around it. Ensure correct 3D perspective, realistic drop shadows, and proper occlusion where the frame overlaps or interacts with the subject(s). The frame must look like a tangible 3D object with thickness and shadow, not a 2D graphic or device screen.`,
+        instruction: `Create a clean white physical 3D ${platform} profile frame cutout (like a dimensional cardboard photo prop) with ONLY the ${platform} logo at the top. The frame should be a thick white border with depth and dimension (not flat, not a phone mockup). DO NOT add any UI elements like home icons, plus icons, heart icons, or navigation buttons at the bottom - keep the frame simple and clean with just the logo. Position the person or group either inside the frame cutout OR creatively around/behind the frame - choose the arrangement that works best for the composition and number of people. The subjects can interact with the frame naturally, whether posing within it or beside/around it. Ensure correct 3D perspective, realistic drop shadows, and proper occlusion where the frame overlaps or interacts with the subject(s). The frame must look like a tangible 3D object with thickness and shadow, not a 2D graphic or device screen.`,
       },
       {
         type: "background_replacement",
@@ -110,6 +110,9 @@ export function buildStructuredPrompt(config: PromptConfig): string {
       "floating feet or ungrounded poses",
       "flat 2D frame or phone/device mockup instead of 3D physical frame",
       "frame that looks like a screen or digital interface",
+      "UI icons or navigation buttons (home, plus, heart, menu icons)",
+      "bottom navigation bar or social media interface elements",
+      "generic social media UI that doesn't match the platform",
       "over-smooth 'plastic' skin",
       "haloing or hard cutout edges",
       "inconsistent lighting between subject, frame, and background",
