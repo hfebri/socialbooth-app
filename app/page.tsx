@@ -151,9 +151,9 @@ export default function HomePage() {
         )}
 
         {/* Example Results Carousel */}
-        <section className="space-y-4">
+        {/* <section className="space-y-4">
           <Ticker items={tickerItems} velocity={120} hoverFactor={0.5} />
-        </section>
+        </section> */}
 
         <footer className="sticky bottom-8 flex justify-center">
           <button
