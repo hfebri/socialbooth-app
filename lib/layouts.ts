@@ -66,9 +66,9 @@ export const LAYOUT_TEMPLATES: LayoutTemplate[] = [
     id: "creator-frame",
     name: "Creator Frame",
     description:
-      "3D social frame with verified badge and custom caption callout.",
+      "Event-branded hero portrait with top-aligned banner and TikTok logo accent—no additional text.",
     promptTemplate:
-      "Stylish portrait of the character sitting position inside a white 3D {{platform}} frame cutout with the logo. Dark background, cinematic lighting, ultra-realistic. {{platform}} id :['{{handle}}'] with blue checkmark. Caption should be [\"{{caption}}\"]",
+      "Stylish portrait of the character in a confident pose on a cinematic dark background with the Winning The Season of Sales graphic locked across the top and the official TikTok logo glowing nearby. Ultra-realistic lighting, branded particle effects, immersive depth, no additional typography.",
     promptDefaults: {
       platform: "TikTok",
       handle: "@leverategroup",

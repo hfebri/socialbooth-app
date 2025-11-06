@@ -13,8 +13,12 @@ function getReplicateClient() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { prompt, photoDataUrl, backgroundImageUrl, eventLogoDataUrl } =
-      body ?? {};
+    const {
+      prompt,
+      photoDataUrl,
+      backgroundImageUrl,
+      eventGraphicDataUrl,
+    } = body ?? {};
 
     if (!prompt || typeof prompt !== "string") {
       return Response.json({ error: "prompt is required" }, { status: 400 });
@@ -38,19 +42,23 @@ export async function POST(request: Request) {
       );
     }
 
-    if (!eventLogoDataUrl || typeof eventLogoDataUrl !== "string") {
+    if (!eventGraphicDataUrl || typeof eventGraphicDataUrl !== "string") {
       return Response.json(
-        { error: "eventLogoDataUrl is required" },
+        { error: "eventGraphicDataUrl is required" },
         { status: 400 }
       );
     }
 
-    // google/nano-banana expects image_input as an array: [user photo, background image, event logo]
+    // google/nano-banana expects image_input as an array of reference images
     const prediction = await getReplicateClient().predictions.create({
       model: "google/nano-banana",
       input: {
         prompt,
-        image_input: [photoDataUrl, backgroundImageUrl, eventLogoDataUrl],
+        image_input: [
+          photoDataUrl,
+          backgroundImageUrl,
+          eventGraphicDataUrl,
+        ],
         output_format: "jpg",
         aspect_ratio: "9:16",
       },

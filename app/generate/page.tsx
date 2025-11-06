@@ -107,13 +107,12 @@ export default function GeneratePage() {
 
       console.log("Starting generation with prompt:", prompt);
 
-      // Convert background image and event logo to base64
+      // Convert background image and brand assets to base64
       const backgroundImageUrl = `${window.location.origin}/background/${selectedBackground}.png`;
       const backgroundDataUrl = await imageUrlToBase64(backgroundImageUrl);
 
-      // Event logo for "Winning The Season of Sales"
-      const eventLogoUrl = `${window.location.origin}/event-tiktok.png`;
-      const eventLogoDataUrl = await imageUrlToBase64(eventLogoUrl);
+      const eventGraphicUrl = `${window.location.origin}/event-tiktok.png`;
+      const eventGraphicDataUrl = await imageUrlToBase64(eventGraphicUrl);
 
       const response = await fetch("/api/generate", {
         method: "POST",
@@ -122,7 +121,7 @@ export default function GeneratePage() {
           prompt,
           photoDataUrl,
           backgroundImageUrl: backgroundDataUrl,
-          eventLogoDataUrl: eventLogoDataUrl,
+          eventGraphicDataUrl,
         }),
       });
 
