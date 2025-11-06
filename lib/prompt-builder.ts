@@ -84,7 +84,7 @@ export function buildStructuredPrompt(config: PromptConfig): string {
       {
         type: "person_edit",
         target: "person",
-        instruction: `Remove the background around the person or group in reference image #1 while preserving the SAME individuals, facial features, identities, skin tones, hair, clothing, and original pose. Do not add new people or remove anyone—keep the identical subjects from reference image #1 intact. Perform only subtle refinements (clean cut edges, balanced lighting, grounded contact shadows) so the subjects sit naturally in the new scene.`,
+        instruction: `Remove the background around the person or group in reference image #1 while preserving the SAME individuals, facial features, identities, skin tones, hair, clothing, and original pose. Do not add new people or remove anyone—keep the identical subjects from reference image #1 intact. Ensure every individual is shown FULL BODY from head to toe with natural proportions—if feet or lower body are missing, reconstruct them faithfully to match the original subjects. Perform only subtle refinements (clean cut edges, balanced lighting, grounded contact shadows) so the subjects sit naturally in the new scene.`,
       },
       {
         type: "background_replacement",
